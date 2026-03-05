@@ -1,0 +1,193 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'  # 例如 v1.0.0
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Release version (e.g., 1.0.0)'
+        required: true
+
+env:
+  DOTNET_VERSION: '8.0.x'
+  PROJECT_PATH: 'WinIsland.Avalonia/WinIsland.Avalonia.csproj'
+
+jobs:
+  create-release:
+    name: Create Release
+    runs-on: windows-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+    
+    - name: Get version
+      id: version
+      shell: pwsh
+      run: |
+        if ("${{ github.event_name }}" -eq "workflow_dispatch") {
+          $version = "${{ github.event.inputs.version }}"
+        } else {
+          $version = "${{ github.ref_name }}".TrimStart('v')
+        }
+        echo "VERSION=$version" >> $env:GITHUB_OUTPUT
+        echo "Version: $version"
+    
+    - name: Restore dependencies
+      run: dotnet restore ${{ env.PROJECT_PATH }}
+    
+    - name: Build Release
+      run: dotnet build ${{ env.PROJECT_PATH }} --configuration Release --no-restore /p:Version=${{ steps.version.outputs.VERSION }}
+    
+    - name: Run tests
+      run: dotnet test --configuration Release --no-build --verbosity normal
+    
+    - name: Publish Windows x64
+      run: |
+        dotnet publish ${{ env.PROJECT_PATH }} `
+          --configuration Release `
+          --runtime win-x64 `
+          --self-contained true `
+          --output ./publish/win-x64 `
+          /p:Version=${{ steps.version.outputs.VERSION }} `
+          /p:PublishSingleFile=true `
+          /p:PublishTrimmed=true `
+          /p:IncludeNativeLibrariesForSelfExtract=true
+    
+    - name: Publish Windows x86
+      run: |
+        dotnet publish ${{ env.PROJECT_PATH }} `
+          --configuration Release `
+          --runtime win-x86 `
+          --self-contained true `
+          --output ./publish/win-x86 `
+          /p:Version=${{ steps.version.outputs.VERSION }} `
+          /p:PublishSingleFile=true `
+          /p:PublishTrimmed=true `
+          /p:IncludeNativeLibrariesForSelfExtract=true
+    
+    - name: Create archives
+      shell: pwsh
+      run: |
+        # 创建 x64 压缩包
+        Compress-Archive -Path ./publish/win-x64/* -DestinationPath ./WinIsland-v${{ steps.version.outputs.VERSION }}-win-x64.zip
+        
+        # 创建 x86 压缩包
+        Compress-Archive -Path ./publish/win-x86/* -DestinationPath ./WinIsland-v${{ steps.version.outputs.VERSION }}-win-x86.zip
+    
+    - name: Calculate checksums
+      shell: pwsh
+      run: |
+        $x64Hash = (Get-FileHash -Path ./WinIsland-v${{ steps.version.outputs.VERSION }}-win-x64.zip -Algorithm SHA256).Hash
+        $x86Hash = (Get-FileHash -Path ./WinIsland-v${{ steps.version.outputs.VERSION }}-win-x86.zip -Algorithm SHA256).Hash
+        
+        @"
+        # SHA256 Checksums
+        
+        ## WinIsland-v${{ steps.version.outputs.VERSION }}-win-x64.zip
+        ``````
+        $x64Hash
+        ``````
+        
+        ## WinIsland-v${{ steps.version.outputs.VERSION }}-win-x86.zip
+        ``````
+        $x86Hash
+        ``````
+        "@ | Out-File -FilePath checksums.txt
+    
+    - name: Generate changelog
+      id: changelog
+      shell: pwsh
+      run: |
+        # 获取上一个标签
+        $previousTag = git describe --tags --abbrev=0 HEAD^ 2>$null
+        
+        if ($previousTag) {
+          $changelog = git log "$previousTag..HEAD" --pretty=format:"- %s (%h)" --no-merges
+        } else {
+          $changelog = git log --pretty=format:"- %s (%h)" --no-merges
+        }
+        
+        # 保存到文件
+        $changelog | Out-File -FilePath changelog.txt
+        
+        # 输出到 GitHub
+        echo "CHANGELOG<<EOF" >> $env:GITHUB_OUTPUT
+        echo $changelog >> $env:GITHUB_OUTPUT
+        echo "EOF" >> $env:GITHUB_OUTPUT
+    
+    - name: Create GitHub Release
+      uses: softprops/action-gh-release@v1
+      with:
+        tag_name: v${{ steps.version.outputs.VERSION }}
+        name: WinIsland v${{ steps.version.outputs.VERSION }}
+        body: |
+          ## 🎉 WinIsland v${{ steps.version.outputs.VERSION }}
+          
+          ### 📦 下载
+          
+          - **Windows x64**: WinIsland-v${{ steps.version.outputs.VERSION }}-win-x64.zip
+          - **Windows x86**: WinIsland-v${{ steps.version.outputs.VERSION }}-win-x86.zip
+          
+          ### 📝 更新日志
+          
+          ${{ steps.changelog.outputs.CHANGELOG }}
+          
+          ### ✅ 校验和
+          
+          请查看 `checksums.txt` 文件验证下载完整性。
+          
+          ### 📋 系统要求
+          
+          - Windows 10 版本 1903 或更高
+          - .NET 8.0 Runtime（自包含版本无需安装）
+          
+          ### 🚀 安装说明
+          
+          1. 下载对应架构的压缩包
+          2. 解压到任意目录
+          3. 运行 `WinIsland.Avalonia.exe`
+          
+          ### 📖 文档
+          
+          - [用户指南](https://github.com/${{ github.repository }}/blob/main/README.md)
+          - [API 文档](https://github.com/${{ github.repository }}/blob/main/WinIsland.Avalonia/docs/API.md)
+          - [架构文档](https://github.com/${{ github.repository }}/blob/main/WinIsland.Avalonia/docs/ARCHITECTURE.md)
+        files: |
+          WinIsland-v${{ steps.version.outputs.VERSION }}-win-x64.zip
+          WinIsland-v${{ steps.version.outputs.VERSION }}-win-x86.zip
+          checksums.txt
+        draft: false
+        prerelease: false
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    
+    - name: Upload release artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: release-v${{ steps.version.outputs.VERSION }}
+        path: |
+          WinIsland-v${{ steps.version.outputs.VERSION }}-win-x64.zip
+          WinIsland-v${{ steps.version.outputs.VERSION }}-win-x86.zip
+          checksums.txt
+        retention-days: 90
+
+  notify:
+    name: Notify Release
+    needs: create-release
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Send notification
+      run: |
+        echo "Release created successfully!"
+        echo "Version: ${{ needs.create-release.outputs.VERSION }}"

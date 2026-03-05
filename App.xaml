@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:WinIsland"
              xmlns:tb="http://www.hardcodet.net/taskbar"
-             StartupUri="MainWindow.xaml">
+             StartupUri="Views/MainWindow.xaml">
     <Application.Resources>
         <!-- 灵动岛风格颜色 -->
         <Color x:Key="IslandBlack">#000000</Color>

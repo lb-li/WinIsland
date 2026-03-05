@@ -1,0 +1,211 @@
+name: Property-Based Tests
+
+on:
+  schedule:
+    # 每天运行一次完整的属性测试套件
+    - cron: '0 3 * * *'
+  workflow_dispatch:  # 允许手动触发
+  pull_request:
+    branches: [ main ]
+    paths:
+      - '**.cs'
+      - '**.csproj'
+
+env:
+  DOTNET_VERSION: '8.0.x'
+  TEST_PROJECT_PATH: 'WinIsland.Avalonia.Tests/WinIsland.Avalonia.Tests.csproj'
+
+jobs:
+  property-tests:
+    name: Run Property-Based Tests
+    runs-on: windows-latest
+    
+    strategy:
+      matrix:
+        test-category:
+          - Infrastructure
+          - Services
+          - Configuration
+          - Animation
+          - Platform
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+    
+    - name: Restore dependencies
+      run: dotnet restore ${{ env.TEST_PROJECT_PATH }}
+    
+    - name: Run property tests - ${{ matrix.test-category }}
+      run: |
+        dotnet test ${{ env.TEST_PROJECT_PATH }} `
+          --configuration Release `
+          --filter "Category=${{ matrix.test-category }}&TestType=Property" `
+          --logger "trx;LogFileName=property-test-results-${{ matrix.test-category }}.trx" `
+          --logger "console;verbosity=detailed" `
+          -- NUnit.NumberOfTestWorkers=1
+      continue-on-error: true
+    
+    - name: Upload test results
+      uses: actions/upload-artifact@v3
+      if: always()
+      with:
+        name: property-test-results-${{ matrix.test-category }}
+        path: '**/property-test-results-${{ matrix.test-category }}.trx'
+        retention-days: 30
+
+  property-test-summary:
+    name: Property Test Summary
+    needs: property-tests
+    runs-on: ubuntu-latest
+    if: always()
+    
+    steps:
+    - name: Download all test results
+      uses: actions/download-artifact@v3
+      with:
+        path: test-results
+    
+    - name: Generate summary
+      shell: pwsh
+      run: |
+        Write-Host "## Property-Based Test Summary" >> $env:GITHUB_STEP_SUMMARY
+        Write-Host "" >> $env:GITHUB_STEP_SUMMARY
+        
+        $categories = @("Infrastructure", "Services", "Configuration", "Animation", "Platform")
+        
+        foreach ($category in $categories) {
+          Write-Host "### $category" >> $env:GITHUB_STEP_SUMMARY
+          Write-Host "Test results for $category category" >> $env:GITHUB_STEP_SUMMARY
+          Write-Host "" >> $env:GITHUB_STEP_SUMMARY
+        }
+
+  extended-property-tests:
+    name: Extended Property Tests (1000 iterations)
+    runs-on: windows-latest
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+    
+    - name: Restore dependencies
+      run: dotnet restore ${{ env.TEST_PROJECT_PATH }}
+    
+    - name: Run extended property tests
+      run: |
+        dotnet test ${{ env.TEST_PROJECT_PATH }} `
+          --configuration Release `
+          --filter "TestType=Property" `
+          --logger "trx;LogFileName=extended-property-test-results.trx" `
+          -- FsCheck.MaxTest=1000
+      continue-on-error: true
+    
+    - name: Upload extended test results
+      uses: actions/upload-artifact@v3
+      if: always()
+      with:
+        name: extended-property-test-results
+        path: '**/extended-property-test-results.trx'
+        retention-days: 90
+
+  stress-test:
+    name: Stress Test
+    runs-on: windows-latest
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+    
+    - name: Build application
+      run: dotnet build WinIsland.Avalonia/WinIsland.Avalonia.csproj --configuration Release
+    
+    - name: Run stress test
+      shell: pwsh
+      run: |
+        Write-Host "Starting stress test..."
+        
+        # 启动应用
+        $process = Start-Process -FilePath "WinIsland.Avalonia/bin/Release/net8.0-windows10.0.19041.0/win-x64/WinIsland.Avalonia.exe" -PassThru
+        
+        # 记录初始内存
+        Start-Sleep -Seconds 10
+        $initialMemory = $process.WorkingSet64 / 1MB
+        Write-Host "初始内存: $initialMemory MB"
+        
+        # 运行 1 小时
+        $duration = 60  # 分钟
+        $interval = 5   # 采样间隔（分钟）
+        $samples = @()
+        
+        for ($i = 0; $i -lt ($duration / $interval); $i++) {
+          Start-Sleep -Seconds ($interval * 60)
+          
+          $process.Refresh()
+          $currentMemory = $process.WorkingSet64 / 1MB
+          $uptime = (Get-Date) - $process.StartTime
+          
+          $sample = @{
+            UptimeMinutes = $uptime.TotalMinutes
+            MemoryMB = $currentMemory
+            Timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
+          }
+          
+          $samples += $sample
+          Write-Host "[$($uptime.TotalMinutes) 分钟] 内存: $currentMemory MB"
+        }
+        
+        # 停止应用
+        Stop-Process -Id $process.Id -Force
+        
+        # 分析结果
+        $maxMemory = ($samples | Measure-Object -Property MemoryMB -Maximum).Maximum
+        $avgMemory = ($samples | Measure-Object -Property MemoryMB -Average).Average
+        $memoryGrowth = $maxMemory - $initialMemory
+        
+        Write-Host ""
+        Write-Host "=== 压力测试结果 ==="
+        Write-Host "初始内存: $initialMemory MB"
+        Write-Host "最大内存: $maxMemory MB"
+        Write-Host "平均内存: $avgMemory MB"
+        Write-Host "内存增长: $memoryGrowth MB"
+        
+        # 检查内存泄漏
+        if ($memoryGrowth -gt 30) {
+          Write-Host "::warning::检测到可能的内存泄漏 (增长 $memoryGrowth MB)"
+        } else {
+          Write-Host "::notice::内存使用稳定"
+        }
+        
+        # 保存结果
+        @{
+          InitialMemoryMB = $initialMemory
+          MaxMemoryMB = $maxMemory
+          AverageMemoryMB = $avgMemory
+          MemoryGrowthMB = $memoryGrowth
+          DurationMinutes = $duration
+          Samples = $samples
+        } | ConvertTo-Json -Depth 3 | Out-File -FilePath stress-test-results.json
+    
+    - name: Upload stress test results
+      uses: actions/upload-artifact@v3
+      with:
+        name: stress-test-results
+        path: stress-test-results.json
+        retention-days: 90

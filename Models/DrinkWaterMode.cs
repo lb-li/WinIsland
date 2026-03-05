@@ -1,5 +1,3 @@
-using System;
-
 namespace WinIsland
 {
     public enum DrinkWaterMode

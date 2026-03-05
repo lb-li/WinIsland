@@ -1,15 +1,18 @@
-﻿<Window x:Class="WinIsland.MainWindow"
+<Window x:Class="WinIsland.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
         Title="WinIsland" 
-        Icon="ico.ico"
+        Icon="/ico.ico"
         Height="200" Width="800"
         WindowStyle="None" 
         AllowsTransparency="True" 
-        Background="Transparent"
+        Background="{x:Null}"
+        MouseDown="Window_MouseDown"
+        MouseMove="Window_MouseMove"
+        MouseUp="Window_MouseUp"
         Topmost="True"
         ResizeMode="NoResize"
         ShowInTaskbar="False"
@@ -17,15 +20,18 @@
         AllowDrop="True"
         Left="0"
         Top="0">
+    
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVis"/>
+    </Window.Resources>
 
     <Grid>
         <Border x:Name="DynamicIsland"
                 Width="120" Height="35"
                 CornerRadius="17.5"
-                Background="Black"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Top"
-                Margin="0,10,0,0"
+                Margin="0,0,0,0"
                 MouseDown="DynamicIsland_MouseDown"
                 MouseEnter="DynamicIsland_MouseEnter"
                 MouseLeave="DynamicIsland_MouseLeave"
@@ -35,8 +41,15 @@
                 DragLeave="DynamicIsland_DragLeave"
                 Drop="DynamicIsland_Drop">
 
+            <Border.Background>
+                <RadialGradientBrush GradientOrigin="0.5,0" Center="0.5,0" RadiusX="0.8" RadiusY="0.8">
+                    <GradientStop Color="#FF252525" Offset="0"/>
+                    <GradientStop Color="Black" Offset="1"/>
+                </RadialGradientBrush>
+            </Border.Background>
+
             <Border.Effect>
-                <DropShadowEffect Color="Black" BlurRadius="20" ShadowDepth="5" Opacity="0.5"/>
+                <DropShadowEffect Color="Black" Direction="270" ShadowDepth="2" BlurRadius="10" Opacity="1"/>
             </Border.Effect>
 
             <Grid>
@@ -64,7 +77,7 @@
                         </Style.Triggers>
                     </Style>
                 </Grid.Resources>
-
+                
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
@@ -72,37 +85,87 @@
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
-                <!-- 通知区域 -->
-                <StackPanel x:Name="NotificationPanel" Grid.Column="0" Grid.ColumnSpan="4" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="Collapsed">
-                    <Grid Width="24" Height="24" Margin="0,0,12,0" RenderTransformOrigin="0.5,0.5">
+                <!-- 🧪 全域进度条 (高质感底部光条) -->
+                <!-- 仅在底部显示 2px 的进度条，保持岛屿本身的黑色高级感 -->
+                <Border x:Name="ProgressFill" Grid.ColumnSpan="4" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="0" Height="2" CornerRadius="1" Visibility="Collapsed" Margin="12,0,12,6">
+                    <Border.Background>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                            <GradientStop Color="#0A84FF" Offset="0"/>    <!-- iOS Blue -->
+                            <GradientStop Color="#5E5CE6" Offset="1"/>    <!-- iOS Indigo -->
+                        </LinearGradientBrush>
+                    </Border.Background>
+                    <Border.Effect>
+                        <DropShadowEffect Color="#0A84FF" BlurRadius="4" ShadowDepth="0" Opacity="0.8"/>
+                    </Border.Effect>
+                </Border>
+
+                <!-- 通知区域 (重构为高级应用通知) -->
+                <Grid x:Name="NotificationPanel" Grid.Column="0" Grid.ColumnSpan="4" VerticalAlignment="Center" HorizontalAlignment="Stretch" Visibility="Collapsed" Margin="15,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    
+                     <!-- 图标区域 -->
+                    <Grid Grid.Column="0" Width="40" Height="40" Margin="0,0,12,0" RenderTransformOrigin="0.5,0.5">
                         <Grid.RenderTransform>
                             <ScaleTransform x:Name="NotificationIconScale" ScaleX="1" ScaleY="1"/>
                         </Grid.RenderTransform>
+                        
+                        <!-- 背景光晕 (Premium Glow) -->
+                        <Ellipse Width="30" Height="30" Opacity="0.2" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <Ellipse.Fill>
+                                <RadialGradientBrush>
+                                    <GradientStop Color="White" Offset="0"/>
+                                    <GradientStop Color="Transparent" Offset="1"/>
+                                </RadialGradientBrush>
+                            </Ellipse.Fill>
+                            <Ellipse.Effect>
+                                <BlurEffect Radius="5"/>
+                            </Ellipse.Effect>
+                        </Ellipse>
+
                         <!-- 连接图标 (蓝牙/USB) -->
-                        <Path x:Name="IconConnect" Data="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M11,16.5L6.5,12L7.91,10.59L11,13.67L16.59,8.09L18,9.5L11,16.5Z" Fill="#00FFCC" Stretch="Uniform" Visibility="Collapsed">
+                        <Path x:Name="IconConnect" Data="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M11,16.5L6.5,12L7.91,10.59L11,13.67L16.59,8.09L18,9.5L11,16.5Z" Fill="#00FFCC" Stretch="Uniform" Visibility="Collapsed" Width="24" Height="24">
                             <Path.Effect>
                                 <DropShadowEffect Color="#00FFCC" BlurRadius="10" ShadowDepth="0" Opacity="0.6"/>
                             </Path.Effect>
                         </Path>
                         <!-- 断开图标 -->
-                        <Path x:Name="IconDisconnect" Data="M12,2C17.53,2 22,6.47 22,12C22,17.53 17.53,22 12,22C6.47,22 2,17.53 2,12C2,6.47 6.47,2 12,2M17,7H7C5.9,7 5,7.9 5,9V10H6V9H17V10H18V9C18,7.9 17.1,7 17,7M17,15H7C5.9,15 5,15.9 5,17V18H6V17H17V18H18V17C18,15.9 17.1,15 17,15M7,12H17V13H7V12Z" Fill="#FF3333" Stretch="Uniform" Visibility="Collapsed">
+                        <Path x:Name="IconDisconnect" Data="M12,2C17.53,2 22,6.47 22,12C22,17.53 17.53,22 12,22C6.47,22 2,17.53 2,12C2,6.47 6.47,2 12,2M17,7H7C5.9,7 5,7.9 5,9V10H6V9H17V10H18V9C18,7.9 17.1,7 17,7M17,15H7C5.9,15 5,15.9 5,17V18H6V17H17V18H18V17C18,15.9 17.1,15 17,15M7,12H17V13H7V12Z" Fill="#FF3333" Stretch="Uniform" Visibility="Collapsed" Width="24" Height="24">
                             <Path.Effect>
                                 <DropShadowEffect Color="#FF3333" BlurRadius="10" ShadowDepth="0" Opacity="0.6"/>
                             </Path.Effect>
                         </Path>
                         <!-- 消息图标 (微信/QQ) -->
-                        <Path x:Name="IconMessage" Data="M20,2H4A2,2 0 0,0 2,4V22L6,18H20A2,2 0 0,0 22,16V4A2,2 0 0,0 20,2M6,9H18V11H6M14,14H6V12H14M18,8H6V6H18" Fill="#00BFFF" Stretch="Uniform" Visibility="Collapsed">
+                        <Path x:Name="IconMessage" Data="M20,2H4A2,2 0 0,0 2,4V22L6,18H20A2,2 0 0,0 22,16V4A2,2 0 0,0 20,2M6,9H18V11H6M14,14H6V12H14M18,8H6V6H18" Fill="#00BFFF" Stretch="Uniform" Visibility="Collapsed" Width="24" Height="24">
                             <Path.Effect>
                                 <DropShadowEffect Color="#00BFFF" BlurRadius="10" ShadowDepth="0" Opacity="0.6"/>
                             </Path.Effect>
                         </Path>
                     </Grid>
-                    <TextBlock x:Name="NotificationText" Text="Device Connected" Foreground="White" FontSize="14" FontWeight="SemiBold" VerticalAlignment="Center">
-                        <TextBlock.Effect>
-                            <DropShadowEffect Color="Black" BlurRadius="2" ShadowDepth="1" Opacity="0.5"/>
-                        </TextBlock.Effect>
-                    </TextBlock>
-                </StackPanel>
+
+                    <!-- 文本内容区域 -->
+                    <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="0">
+                        <Grid Margin="0,0,0,2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <!-- 应用名称 -->
+                            <TextBlock x:Name="NotificationTitle" Text="SYSTEM" Foreground="#99FFFFFF" FontSize="11" FontWeight="Bold"/>
+                            <!-- 时间戳 -->
+                            <TextBlock Text="现在" Grid.Column="1" HorizontalAlignment="Right" Foreground="#66FFFFFF" FontSize="10" Margin="0,0,5,0"/>
+                        </Grid>
+                        
+                        <!-- 消息正文 -->
+                        <TextBlock x:Name="NotificationBody" Text="Notification Content" Foreground="White" FontSize="13" TextWrapping="Wrap" TextTrimming="CharacterEllipsis" MaxHeight="54" LineHeight="18">
+                             <TextBlock.Effect>
+                                <DropShadowEffect Color="Black" BlurRadius="2" ShadowDepth="1" Opacity="0.3"/>
+                            </TextBlock.Effect>
+                        </TextBlock>
+                    </StackPanel>
+                </Grid>
 
                 <!-- 喝水提醒区域 -->
                 <!-- 喝水提醒区域 (Premium Design) -->
@@ -300,7 +363,7 @@
                     </Grid.ColumnDefinitions>
 
                     <!-- 黑洞引力场背景 -->
-                    <Grid Width="60" Height="60" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Grid Width="60" Height="60" HorizontalAlignment="Center" VerticalAlignment="Center" CacheMode="BitmapCache">
                         <Grid.RenderTransform>
                             <ScaleTransform x:Name="BlackHoleScale" ScaleX="0" ScaleY="0" CenterX="30" CenterY="30"/>
                         </Grid.RenderTransform>
@@ -361,32 +424,99 @@
                     
                 </Grid>
 
-                <Image x:Name="AlbumCover" Grid.Column="0" Width="40" Height="40" Margin="10,0,0,0" Visibility="Collapsed">
+                <!-- ⏳ 全域进度面板 (iOS Premium Style) -->
+                <Grid x:Name="ProgressPanel" Grid.Column="0" Grid.ColumnSpan="4" VerticalAlignment="Center" HorizontalAlignment="Stretch" Visibility="Collapsed" Margin="6,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/> <!-- Icon -->
+                        <ColumnDefinition Width="*"/>    <!-- Spacer -->
+                        <ColumnDefinition Width="Auto"/> <!-- Status -->
+                    </Grid.ColumnDefinitions>
+
+                    <!-- 左侧：下载动态图标 -->
+                    <Grid Grid.Column="0" Width="24" Height="24" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="4,0,0,0">
+                         <!-- 图标背景 -->
+                        <Ellipse Fill="#330A84FF" Width="24" Height="24"/>
+                        
+                        <!-- 箭头动画 -->
+                        <Path Data="M12,16 L12,8 M12,16 L9,13 M12,16 L15,13" Stroke="#0A84FF" StrokeThickness="2.5" StrokeStartLineCap="Round" StrokeEndLineCap="Round" Stretch="Uniform" Width="12" Height="12" RenderTransformOrigin="0.5,0.5">
+                            <Path.RenderTransform>
+                                <TranslateTransform x:Name="DownloadArrowTrans" Y="-2"/>
+                            </Path.RenderTransform>
+                            <Path.Triggers>
+                                <EventTrigger RoutedEvent="Loaded">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                             <DoubleAnimation Storyboard.TargetName="DownloadArrowTrans" Storyboard.TargetProperty="Y"
+                                                              From="-2" To="2" Duration="0:0:0.8" AutoReverse="True" RepeatBehavior="Forever">
+                                                 <DoubleAnimation.EasingFunction>
+                                                     <SineEase EasingMode="EaseInOut"/>
+                                                 </DoubleAnimation.EasingFunction>
+                                             </DoubleAnimation>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </Path.Triggers>
+                        </Path>
+                    </Grid>
+
+                    <!-- 右侧：状态信息 -->
+                    <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,8,0">
+                        <TextBlock x:Name="TxtProgressTitle" Text="Chrome" Foreground="White" FontSize="12" FontWeight="SemiBold" VerticalAlignment="Center" Margin="0,0,8,0" Opacity="0.9"/>
+                        <TextBlock x:Name="TxtProgressValue" Text="50%" Foreground="#0A84FF" FontSize="12" FontWeight="Bold" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Grid>
+
+
+
+
+                <Image x:Name="AlbumCover" Grid.Column="0" Width="40" Height="40" Margin="10,0,0,0" Source="{Binding Media.AlbumCover}" Visibility="{Binding Media.IsActive, Converter={StaticResource BoolToVis}}">
                     <Image.Clip>
                         <EllipseGeometry Center="20,20" RadiusX="20" RadiusY="20"/>
                     </Image.Clip>
                 </Image>
 
-                <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="12,0">
-                    <TextBlock x:Name="SongTitle" Text="WinIsland" Foreground="White" FontSize="13" FontWeight="Bold" TextTrimming="CharacterEllipsis"/>
+                <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="12,0" Visibility="{Binding Media.IsActive, Converter={StaticResource BoolToVis}}">
+                    <TextBlock x:Name="SongTitle" Text="{Binding Media.Title}" Foreground="White" FontSize="13" FontWeight="Bold" TextTrimming="CharacterEllipsis"/>
                 </StackPanel>
 
-                <StackPanel x:Name="ControlPanel" Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,10,0" Visibility="Collapsed">
+                <StackPanel x:Name="ControlPanel" Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,10,0" Visibility="{Binding Media.IsActive, Converter={StaticResource BoolToVis}}">
                     <!-- 上一曲 -->
-                    <Button x:Name="BtnPrev" Click="BtnPrev_Click" Style="{StaticResource PlayerBtnStyle}" Width="24" Height="24">
+                    <Button x:Name="BtnPrev" Command="{Binding Media.PreviousCommand}" Style="{StaticResource PlayerBtnStyle}" Width="24" Height="24">
                         <Path Data="M6,18 L14.5,12 L6,6 L6,18 Z M15,6 L15,18 L17,18 L17,6 L15,6 Z" Fill="White" Stretch="Uniform" Width="12" Height="12"/>
                     </Button>
                     
                     <!-- 播放/暂停 -->
-                    <Button x:Name="BtnPlayPause" Click="BtnPlayPause_Click" Style="{StaticResource PlayerBtnStyle}" Width="32" Height="32">
+                    <Button x:Name="BtnPlayPause" Command="{Binding Media.TogglePlayPauseCommand}" Style="{StaticResource PlayerBtnStyle}" Width="32" Height="32">
                         <Grid>
-                            <Path x:Name="IconPlay" Data="M8,5 L19,12 L8,19 Z" Fill="White" Stretch="Uniform" Width="14" Height="14" Visibility="Visible"/>
-                            <Path x:Name="IconPause" Data="M6,19 L10,19 L10,5 L6,5 Z M14,5 L14,19 L18,19 L18,5 Z" Fill="White" Stretch="Uniform" Width="14" Height="14" Visibility="Collapsed"/>
+                            <Path x:Name="IconPlay" Data="M8,5 L19,12 L8,19 Z" Fill="White" Stretch="Uniform" Width="14" Height="14">
+                                <Path.Style>
+                                    <Style TargetType="Path">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Media.IsPlaying}" Value="True">
+                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Path.Style>
+                            </Path>
+                            <Path x:Name="IconPause" Data="M6,19 L10,19 L10,5 L6,5 Z M14,5 L14,19 L18,19 L18,5 Z" Fill="White" Stretch="Uniform" Width="14" Height="14">
+                                <Path.Style>
+                                    <Style TargetType="Path">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Media.IsPlaying}" Value="True">
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Path.Style>
+                            </Path>
                         </Grid>
                     </Button>
                     
                     <!-- 下一曲 -->
-                    <Button x:Name="BtnNext" Click="BtnNext_Click" Style="{StaticResource PlayerBtnStyle}" Width="24" Height="24">
+                    <Button x:Name="BtnNext" Command="{Binding Media.NextCommand}" Style="{StaticResource PlayerBtnStyle}" Width="24" Height="24">
                         <Path Data="M7,6 L7,18 L9,18 L9,6 L7,6 Z M9.5,12 L18,18 L18,6 L9.5,12 Z" Fill="White" Stretch="Uniform" Width="12" Height="12"/>
                     </Button>
                 </StackPanel>
@@ -404,6 +534,106 @@
                     <Border x:Name="Bar4" Width="4" Height="8" Background="{StaticResource VisualizerBrush}" Margin="1.5" CornerRadius="2"/>
                     <Border x:Name="Bar5" Width="4" Height="4" Background="{StaticResource VisualizerBrush}" Margin="1.5" CornerRadius="2"/>
                 </StackPanel>
+                <!-- 10. System Monitor Panel (极客仪表盘) -->
+                <Grid x:Name="SystemMonitorPanel" Visibility="Collapsed" Grid.Column="0" Grid.ColumnSpan="5" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <!-- CPU -->
+                    <StackPanel Orientation="Horizontal" Margin="0,0,12,0">
+                        <TextBlock Text="CPU" Foreground="#8E8E93" FontSize="9" VerticalAlignment="Center" Margin="0,0,4,0"/>
+                        <TextBlock x:Name="TxtCpuUsage" Text="0%" Foreground="White" FontSize="12" FontWeight="Bold" VerticalAlignment="Center"/>
+                    </StackPanel>
+
+                    <!-- RAM -->
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="0,0,12,0">
+                        <TextBlock Text="RAM" Foreground="#8E8E93" FontSize="9" VerticalAlignment="Center" Margin="0,0,4,0"/>
+                        <TextBlock x:Name="TxtRamUsage" Text="0%" Foreground="White" FontSize="12" FontWeight="Bold" VerticalAlignment="Center"/>
+                    </StackPanel>
+
+                    <!-- Network -->
+                    <StackPanel Grid.Column="2" VerticalAlignment="Center">
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                            <TextBlock Text="↑" Foreground="#30D158" FontSize="8" Margin="0,0,2,0" VerticalAlignment="Center"/>
+                            <TextBlock x:Name="TxtUploadSpeed" Text="0 KB/s" Foreground="#8E8E93" FontSize="9" VerticalAlignment="Center"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                            <TextBlock Text="↓" Foreground="#0A84FF" FontSize="8" Margin="0,0,2,0" VerticalAlignment="Center"/>
+                            <TextBlock x:Name="TxtDownloadSpeed" Text="0 KB/s" Foreground="#8E8E93" FontSize="9" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+
+                <!-- 11. Pomodoro Panel (番茄专注钟 - Premium Redesign) -->
+                <Grid x:Name="PomodoroPanel" Visibility="Collapsed" Grid.Column="0" Grid.ColumnSpan="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    
+                    <!-- 底部微光进度条 -->
+                    <Border VerticalAlignment="Bottom" Height="2" Margin="12,0,12,6" CornerRadius="1" HorizontalAlignment="Left" x:Name="PomodoroProgressBarContainer">
+                         <Rectangle x:Name="PomodoroProgressBar" Width="0" Height="2" HorizontalAlignment="Left">
+                             <Rectangle.Fill>
+                                 <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                     <GradientStop Color="#FF6B6B" Offset="0"/>
+                                     <GradientStop Color="#FFD93D" Offset="1"/>
+                                 </LinearGradientBrush>
+                             </Rectangle.Fill>
+                             <Rectangle.Effect>
+                                 <DropShadowEffect Color="#FF6B6B" BlurRadius="4" ShadowDepth="0" Opacity="0.6"/>
+                             </Rectangle.Effect>
+                         </Rectangle>
+                    </Border>
+
+                    <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!-- 图标区域 (24x24 完美居中容器) -->
+                        <Grid Grid.Column="0" Width="24" Height="24" Margin="0,0,8,0">
+                            <!-- 内部发光点 -->
+                            <Ellipse Width="10" Height="10" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <Ellipse.Fill>
+                                    <RadialGradientBrush GradientOrigin="0.5,0.5" Center="0.5,0.5" RadiusX="0.5" RadiusY="0.5">
+                                        <GradientStop Color="#FF9966" Offset="0"/>
+                                        <GradientStop Color="#00FF5E62" Offset="1"/>
+                                    </RadialGradientBrush>
+                                </Ellipse.Fill>
+                            </Ellipse>
+                            
+                            <!-- 旋转环 (使用虚线椭圆实现弧形效果) -->
+                            <Ellipse Width="16" Height="16" Stroke="#FF8C00" StrokeThickness="2" StrokeDashArray="3,1.5" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <Ellipse.RenderTransform>
+                                    <RotateTransform x:Name="FocusIconRotate" Angle="0"/>
+                                </Ellipse.RenderTransform>
+                                <Ellipse.Triggers>
+                                    <EventTrigger RoutedEvent="Loaded">
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <DoubleAnimation Storyboard.TargetName="FocusIconRotate" Storyboard.TargetProperty="Angle" From="0" To="360" Duration="0:0:4" RepeatBehavior="Forever"/>
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </EventTrigger>
+                                </Ellipse.Triggers>
+                            </Ellipse>
+                        </Grid>
+
+                        <!-- 计时器 (清晰的 Segoe UI 字体) -->
+                        <TextBlock x:Name="TxtFocusTimer" Grid.Column="1" Text="25:00" FontSize="16" FontFamily="Segoe UI" FontWeight="SemiBold" Foreground="White" VerticalAlignment="Center" Margin="0,-1,10,0"/>
+
+                        <!-- 状态徽章 (胶囊样式) -->
+                        <Border Grid.Column="2" x:Name="BadgeFocusStatus" Background="#3A3A3C" CornerRadius="4" Padding="5,1" VerticalAlignment="Center" SnapsToDevicePixels="True">
+                             <TextBlock x:Name="TxtFocusStatus" Text="FOCUS" FontSize="10" FontWeight="Bold" Foreground="#D0D0D0" FontFamily="Segoe UI" />
+                        </Border>
+                    </Grid>
+                </Grid>
+
+                <!-- 12. AI 助手面板 (聊天岛) -->
+
+
             </Grid>
         </Border>
     </Grid>

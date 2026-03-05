@@ -1,88 +1,53 @@
-# 🏝️ WinIsland (Win灵动岛)
+﻿# WinIsland
 
-> **打破 Windows 沉闷交互的边界，单屏生产力的终极形态。**
-> 
-> WinIsland 不仅仅是 iOS 灵动岛的复刻，它是为 Windows 桌面生态量身打造的**智能中枢**。它以极简的 "胶囊" 形态悬浮于顶，却在每一次需要时，以惊艳的物理弹性动画展开无限可能。
+> Make Windows feel alive at the top of your screen.
+> WinIsland brings notifications, media, focus, and reminders into one smooth dynamic island.
 
-![WinIsland](ioc.png)
+[中文文档](README.zh-CN.md)
 
-## ✨ 最新动态 (Update)
+## Why People Like WinIsland
+- Cleaner desktop: important updates appear in one focused place.
+- Faster workflow: media, todo, and timer actions without app switching.
+- Better focus: Pomodoro + reminder system designed for real daily work.
+- Lightweight interaction: quick to use, easy to keep on all day.
 
-- **🆕 独立便携版**：现已支持单文件运行，无需复杂的安装步骤，即点即用。
-- **🚀 性能飞跃**：重写物理动画引擎，CPU 占用率即使在动画时也微乎其微。
-- **🔧 交互升级**：支持任意位置拖拽停靠，双击快速进入专注模式。
-- **📈 监控组件**：新增 CPU/内存/网速实时监控，以及任务栏通用进度条投射。
+## Feature Highlights
+- Notification takeover and unified display
+- Global media session display and controls
+- Focus mode (Pomodoro)
+- Water reminders (interval mode / custom schedule)
+- Todo reminders (date + time + content)
+- System status and progress display
 
-## 🎮 快捷交互指南 (Quick Start)
-
-WinIsland 提倡 "直觉式" 的交互体验，没有复杂的菜单，一切尽在指尖：
-
-| 操作 | 动作 | 说明 |
-| :--- | :--- | :--- |
-| **✋ 移动位置** | **按住左键拖拽** | 觉得挡住了视线？按住灵动岛任意空白处，即可将其拖拽到屏幕任何位置，松手自动吸附。 |
-| **🧘 专注模式** | **双击左键** | 快速开启/关闭番茄钟专注模式，屏蔽外界打扰，专注于当下任务。 |
-| **📂 文件中转** | **拖拽文件至岛** | 将文件拖向灵动岛，它会变身 "黑洞" 吸入文件；再次拖出即可释放到其他软件。 |
-| **🖱️ 鼠标穿透** | **自动感应** | 当没有媒体播放或通知时，鼠标可以直接穿透灵动岛点击后方的窗口，互不干扰。 |
-
-## 🚀 核心功能
-
-### 1. 🌪️ 独创「文件引力黑洞」
-**即使只有一块屏幕，也能享受多屏般的高效文件流转。**
+## Screenshots
+### File Transfer Hub
 ![File Gravity Hole](assets/feature_blackhole.png)
-*   **Drag & Drop 2.0**：当你拖拽文件至屏幕顶部，灵动岛瞬间化身紫色引力黑洞。
-*   **暂存任意文件**：松手即吸入。文件被安全托管在岛内，不再占用你的鼠标和剪贴板。
-*   **跨应用传输**：切换到微信、PS 或邮件窗口，从岛上轻轻一拖，文件即刻释放。
 
-### 2. 🎵 沉浸式媒体接管
-**让音乐不仅好听，而且好看。**
+### Media Control
 ![Media Control](assets/feature_media.png)
-*   **全局兼容**：完美支持网易云音乐、Spotify、Apple Music 等主流播放器。
-*   **视觉律动**：内置实时音频频谱分析，灵动岛会随着重低音的节奏跳动呼吸。
-*   **打扰更少**：切歌、暂停，一切操作均在顶部微型窗口完成，无需离开当前工作区。
 
-### 3. ⚡ 硬件级感知与全场景通知接管
-**彻底取代 Windows 原生通知，更加优雅，更懂你。**
+### Notifications and Device Events
 ![Hardware Notification](assets/feature_notify.png)
-*   **消息接管**：QQ、钉钉... 所有应用的消息通知都将被灵动岛统一接管。它会自动提取核心内容展示，并支持**自动清理系统原生通知**，还你一个干净的侧边栏。
-*   **硬件感知**：AirPods 连接了？U盘拔出了？灵动岛会以优雅的 3D 翻转动画告知你，随后自动隐退。
 
-### 4. 💻 极客组件 (Geek Tools)
-**专为极客打造的系统级感知能力。**
-*   **系统仪表盘**：待机时可显示 CPU 使用率、内存负载以及实时上传/下载网速，时刻掌握电脑状态。
-*   **通用进度投射**：自动捕获浏览器下载、文件解压等任务栏进度条，将其同步投射到灵动岛上，无需反复切换窗口查看进度。
-
-### 5. 🧘 赛博养生与专注
+### Focus and Wellness
 ![Health Assistant](assets/feature_health.png)
-*   **全屏专注模式**：双击灵动岛开启番茄钟，屏幕边缘伴随金色呼吸光效，助你进入心流状态。
-*   **智能喝水提醒**：可设置固定间隔或自定义时间点，细腻的水滴动画提醒你补充水分。
-*   **Todo 速记**：不再遗忘闪念即逝的任务，时刻保持井井有条。
 
-### 6. 🛡️ 智能隐身
-*   **交互穿透**：智能识别状态，平时不妨碍你点击岛屿后方的窗口。
-*   **自动避让**：鼠标靠近时可自动变透明（需在设置中开启），防止遮挡关键内容。
+## Download
+- Installer package: `installer/output/WinIsland-Setup-v1.0.0.exe`
+- Installer docs: `installer/README.md`
 
----
+## Build From Source
+```powershell
+dotnet build WinIsland.csproj -v minimal
+dotnet run --project WinIsland.csproj
+```
 
-## 📥 使用方法
+## Pack Installer (Non-Single-File)
+```powershell
+dotnet publish WinIsland.csproj -c Release -r win-x64 --self-contained true -p:PublishSingleFile=false -o publish/win-x64
+& "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" installer\setup.iss
+```
 
-1. **下载**：获取最新的 `WinIsland.exe`。
-2. **运行**：双击即可启动，无需安装。
-3. **设置**：在灵动岛上右键（或通过托盘图标）可打开设置面板，自定义你的偏好。
-
-> **注意**：部分安全软件可能会对新发布的程序进行拦截，请允许运行以获得完整体验。
-
-## 🎨 极致的工匠设计
-
-我们拒绝 Windows Forms 的廉价感。WinIsland 的每一像素都经过精心打磨：
-*   **Spring Physics 引擎**：自研弹簧阻尼算法，窗口的每一次变大变小，都像果冻一样Q弹真实。
-*   **Glassmorphism**：深邃的背景模糊与弥散光影，完美融入 Windows 11 设计语言。
-*   **60FPS 流畅度**：基于 GPU 加速的渲染管线，拒绝掉帧与卡顿。
-
----
-
-## ❤️ 参与贡献
-
-WinIsland 是一个开源项目，我们需要你的创意！
-如果你有好的想法或发现了 Bug，欢迎提交 Issue 或 PR。让我们一起重新定义 Windows 的桌面体验。
-
-*Created with ❤️ by Antigravity*
+## Support This Project
+If WinIsland helps you, please give this repository a star.
+Your star helps more people discover and use it.

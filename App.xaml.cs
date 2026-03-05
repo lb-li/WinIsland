@@ -1,17 +1,15 @@
-﻿using System.Configuration;
-using System.Data;
+﻿using Hardcodet.Wpf.TaskbarNotification;
 using System.Windows;
 using System.Windows.Controls;
-using Hardcodet.Wpf.TaskbarNotification;
 
 namespace WinIsland
 {
     /// <summary>
     /// Interaction logic for App.xaml
     /// </summary>
-    public partial class App : Application
+    public partial class App : System.Windows.Application
     {
-        private TaskbarIcon _trayIcon;
+        private TaskbarIcon? _trayIcon;
 
         protected override void OnStartup(StartupEventArgs e)
         {
@@ -39,7 +37,7 @@ namespace WinIsland
                 }
             }
             catch { }
-            
+
             // 如果加载失败，使用系统默认图标
             return System.Drawing.SystemIcons.Application;
         }
@@ -50,14 +48,14 @@ namespace WinIsland
             base.OnExit(e);
         }
 
-        private void Settings_Click(object sender, RoutedEventArgs e)
+        private void Settings_Click(object? sender, RoutedEventArgs e)
         {
             // 打开设置窗口
             var settingsWindow = new SettingsWindow();
             settingsWindow.Show();
         }
 
-        private void Exit_Click(object sender, RoutedEventArgs e)
+        private void Exit_Click(object? sender, RoutedEventArgs e)
         {
             Shutdown();
         }

@@ -44,3 +44,7 @@ $RECYCLE.BIN/
 
 # Publish folder (just in case)
 **/publish/
+
+# Installer artifacts
+installer/output/
+

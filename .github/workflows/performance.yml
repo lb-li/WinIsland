@@ -1,0 +1,177 @@
+name: Performance Benchmarks
+
+on:
+  schedule:
+    # 每天凌晨 2 点运行
+    - cron: '0 2 * * *'
+  workflow_dispatch:  # 允许手动触发
+
+env:
+  DOTNET_VERSION: '8.0.x'
+  BENCHMARK_PROJECT_PATH: 'WinIsland.Avalonia.Benchmarks/WinIsland.Avalonia.Benchmarks.csproj'
+
+jobs:
+  benchmark:
+    name: Run Performance Benchmarks
+    runs-on: windows-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+    
+    - name: Restore dependencies
+      run: dotnet restore ${{ env.BENCHMARK_PROJECT_PATH }}
+    
+    - name: Run benchmarks
+      run: dotnet run --project ${{ env.BENCHMARK_PROJECT_PATH }} --configuration Release -- --exporters json markdown
+    
+    - name: Store benchmark results
+      uses: benchmark-action/github-action-benchmark@v1
+      with:
+        name: Performance Benchmarks
+        tool: 'benchmarkdotnet'
+        output-file-path: BenchmarkDotNet.Artifacts/results/combined-results.json
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        auto-push: true
+        alert-threshold: '150%'
+        comment-on-alert: true
+        fail-on-alert: false
+    
+    - name: Upload benchmark artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: benchmark-results
+        path: BenchmarkDotNet.Artifacts/
+        retention-days: 90
+
+  memory-test:
+    name: Memory Usage Test
+    runs-on: windows-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+    
+    - name: Build application
+      run: dotnet build WinIsland.Avalonia/WinIsland.Avalonia.csproj --configuration Release
+    
+    - name: Run memory test
+      shell: pwsh
+      run: |
+        # 启动应用
+        $process = Start-Process -FilePath "WinIsland.Avalonia/bin/Release/net8.0-windows10.0.19041.0/win-x64/WinIsland.Avalonia.exe" -PassThru
+        
+        # 等待启动
+        Start-Sleep -Seconds 10
+        
+        # 测量待机内存
+        $idleMemory = $process.WorkingSet64 / 1MB
+        Write-Host "待机内存: $idleMemory MB"
+        
+        # 等待一段时间测试稳定性
+        Start-Sleep -Seconds 30
+        
+        # 再次测量
+        $process.Refresh()
+        $stableMemory = $process.WorkingSet64 / 1MB
+        Write-Host "稳定内存: $stableMemory MB"
+        
+        # 停止应用
+        Stop-Process -Id $process.Id -Force
+        
+        # 检查内存目标
+        if ($stableMemory -gt 50) {
+          Write-Host "::warning::内存占用 ($stableMemory MB) 超过目标 (50 MB)"
+        } else {
+          Write-Host "::notice::内存占用正常 ($stableMemory MB)"
+        }
+        
+        # 输出到文件
+        @{
+          IdleMemoryMB = $idleMemory
+          StableMemoryMB = $stableMemory
+          Timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
+        } | ConvertTo-Json | Out-File -FilePath memory-results.json
+    
+    - name: Upload memory test results
+      uses: actions/upload-artifact@v3
+      with:
+        name: memory-test-results
+        path: memory-results.json
+        retention-days: 90
+
+  startup-time-test:
+    name: Startup Time Test
+    runs-on: windows-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+    
+    - name: Build application
+      run: dotnet build WinIsland.Avalonia/WinIsland.Avalonia.csproj --configuration Release
+    
+    - name: Measure startup time
+      shell: pwsh
+      run: |
+        $results = @()
+        
+        # 运行 5 次取平均值
+        for ($i = 1; $i -le 5; $i++) {
+          Write-Host "测试 $i/5..."
+          
+          $startTime = Get-Date
+          $process = Start-Process -FilePath "WinIsland.Avalonia/bin/Release/net8.0-windows10.0.19041.0/win-x64/WinIsland.Avalonia.exe" -PassThru
+          
+          # 等待窗口出现（简化检测）
+          Start-Sleep -Seconds 2
+          
+          $endTime = Get-Date
+          $duration = ($endTime - $startTime).TotalSeconds
+          
+          Write-Host "启动时间: $duration 秒"
+          $results += $duration
+          
+          # 停止应用
+          Stop-Process -Id $process.Id -Force
+          Start-Sleep -Seconds 2
+        }
+        
+        $avgStartupTime = ($results | Measure-Object -Average).Average
+        Write-Host "平均启动时间: $avgStartupTime 秒"
+        
+        # 检查启动时间目标
+        if ($avgStartupTime -gt 1.2) {
+          Write-Host "::warning::启动时间 ($avgStartupTime 秒) 超过目标 (1.2 秒)"
+        } else {
+          Write-Host "::notice::启动时间正常 ($avgStartupTime 秒)"
+        }
+        
+        # 输出到文件
+        @{
+          AverageStartupTimeSeconds = $avgStartupTime
+          Measurements = $results
+          Timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
+        } | ConvertTo-Json | Out-File -FilePath startup-results.json
+    
+    - name: Upload startup test results
+      uses: actions/upload-artifact@v3
+      with:
+        name: startup-test-results
+        path: startup-results.json
+        retention-days: 90
