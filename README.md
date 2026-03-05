@@ -32,6 +32,12 @@
 ### Focus and Wellness
 ![Health Assistant](assets/feature_health.png)
 
+
+## Community
+Join the WinIsland user group:
+
+![WinIsland Community Group](assets/705fa98888b161b6c205756a11aeebfa.jpg)
+
 ## Download
 - Installer package: `installer/output/WinIsland-Setup-v1.0.0.exe`
 - Installer docs: `installer/README.md`
@@ -51,3 +57,4 @@ dotnet publish WinIsland.csproj -c Release -r win-x64 --self-contained true -p:P
 ## Support This Project
 If WinIsland helps you, please give this repository a star.
 Your star helps more people discover and use it.
+

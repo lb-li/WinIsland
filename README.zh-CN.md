@@ -30,6 +30,12 @@
 ### 专注与健康提醒
 ![Health Assistant](assets/feature_health.png)
 
+
+## 交流群
+欢迎加入 WinIsland 用户交流群：
+
+![WinIsland 交流群](assets/705fa98888b161b6c205756a11aeebfa.jpg)
+
 ## 下载方式
 - 安装包：`installer/output/WinIsland-Setup-v1.0.0.exe`
 - 安装文档：`installer/README.zh-CN.md`
@@ -49,3 +55,4 @@ dotnet publish WinIsland.csproj -c Release -r win-x64 --self-contained true -p:P
 ## 支持项目
 如果 WinIsland 对你有帮助，欢迎点一个 Star。
 你的 Star 会让更多人看到并下载这个项目。
+
