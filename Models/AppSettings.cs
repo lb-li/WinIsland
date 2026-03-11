@@ -1,5 +1,6 @@
 using System.IO;
 using System.Text.Json;
+using System.Windows.Media.Effects;
 
 namespace WinIsland
 {
@@ -28,8 +29,11 @@ namespace WinIsland
         public int PomodoroDurationMinutes { get; set; } = 25; // 专注时长 (分钟)
         public bool EnableAutoHide { get; set; } = false;      // 智能隐身
 
-
-
+        // 字体配置
+        public string FontFamily { get; set; } = "Segoe UI";
+        public double FontSize { get; set; } = 14;
+        public string DefaultFontFamily { get; set; } = "Segoe UI";
+        public double DefaultFontSize { get; set; } = 12;
 
 
         private static string ConfigPath => Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "settings.json");

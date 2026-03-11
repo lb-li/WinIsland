@@ -1,4 +1,4 @@
-﻿using Microsoft.Win32;
+using Microsoft.Win32;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -35,6 +35,7 @@ namespace WinIsland
         {
             InitializeComponent();
             InitializeTimeDial();
+            LoadSystemFonts();
             LoadSettings();
         }
 
@@ -42,6 +43,12 @@ namespace WinIsland
         {
             if (e.ChangedButton == MouseButton.Left)
                 DragMove();
+        }
+
+        private void LoadSystemFonts()
+        {
+            var fonts = Fonts.SystemFontFamilies.OrderBy(f => f.Source).ToList();
+            CmbFontFamily.ItemsSource = fonts;
         }
 
         private void InitializeTimeDial()
@@ -335,6 +342,11 @@ namespace WinIsland
             BtnTodoDate.Content = _todoDate.ToString("yyyy-MM-dd");
             BtnTodoTime.Content = _todoTime.ToString("hh\\:mm");
 
+            CmbFontFamily.SelectedValue = settings.FontFamily;
+            SliderFontSize.Value = settings.FontSize;
+            TxtFontSizeValue.Text = settings.FontSize.ToString();
+            UpdateFontPreview(settings.FontFamily, settings.FontSize);
+
             UpdateDrinkWaterUI();
             UpdateTodoUI();
         }
@@ -371,6 +383,9 @@ namespace WinIsland
             settings.DrinkWaterMode = RbModeCustom.IsChecked == true ? DrinkWaterMode.Custom : DrinkWaterMode.Interval;
 
             settings.TodoEnabled = ChkTodo.IsChecked == true;
+
+            settings.FontFamily = CmbFontFamily.SelectedValue?.ToString() ?? "Segoe UI";
+            settings.FontSize = SliderFontSize.Value;
 
             settings.Save();
 
@@ -564,6 +579,48 @@ namespace WinIsland
         private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)
         {
             e.Handled = new System.Text.RegularExpressions.Regex("[^0-9]+").IsMatch(e.Text);
+        }
+
+        private void CmbFontFamily_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (CmbFontFamily.SelectedItem is System.Windows.Media.FontFamily selectedFont)
+            {
+                UpdateFontPreview(selectedFont.Source, SliderFontSize.Value);
+            }
+        }
+
+        private void SliderFontSize_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if (TxtFontSizeValue != null)
+            {
+                TxtFontSizeValue.Text = ((int)SliderFontSize.Value).ToString();
+                var fontFamily = CmbFontFamily.SelectedValue?.ToString() ?? "Segoe UI";
+                UpdateFontPreview(fontFamily, SliderFontSize.Value);
+            }
+        }
+
+        private void UpdateFontPreview(string fontFamily, double fontSize)
+        {
+            if (TxtFontPreview == null) return;
+            try
+            {
+                TxtFontPreview.FontFamily = new System.Windows.Media.FontFamily(fontFamily);
+                TxtFontPreview.FontSize = fontSize;
+            }
+            catch
+            {
+                TxtFontPreview.FontFamily = new System.Windows.Media.FontFamily("Segoe UI");
+                TxtFontPreview.FontSize = fontSize;
+            }
+        }
+
+        private void BtnResetFont_Click(object sender, RoutedEventArgs e)
+        {
+            var settings = AppSettings.Load();
+            CmbFontFamily.SelectedValue = settings.DefaultFontFamily;
+            SliderFontSize.Value = settings.DefaultFontSize;
+            TxtFontSizeValue.Text = settings.DefaultFontSize.ToString();
+            UpdateFontPreview(settings.DefaultFontFamily, settings.DefaultFontSize);
         }
     }
 }

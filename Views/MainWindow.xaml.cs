@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Input;
@@ -19,6 +19,9 @@ namespace WinIsland
             
             _viewModel = new ViewModels.MainViewModel();
             DataContext = _viewModel;
+
+            var settings = AppSettings.Load();
+            ApplyFontSettings(settings);
             _viewModel.Media.PropertyChanged += OnMediaPropertyChanged;
 
             // 1. 物理动画（Springs），底层依赖
@@ -221,11 +224,56 @@ namespace WinIsland
 
         public void ReloadSettings()
         {
+            var settings = AppSettings.Load();
+            ApplyFontSettings(settings);
+
             InitializeDrinkWaterFeature();
             InitializeTodoFeature();
             InitializeProgressFeature();
 
             CheckCurrentSession();
+        }
+
+        private void ApplyFontSettings(AppSettings settings)
+        {
+            try
+            {
+                var fontFamily = new System.Windows.Media.FontFamily(settings.FontFamily);
+                
+                this.FontFamily = fontFamily;
+                this.FontSize = settings.FontSize;
+
+                foreach (var child in GetAllChildren(Content as System.Windows.DependencyObject))
+                {
+                    if (child is System.Windows.Controls.TextBlock textBlock)
+                    {
+                        textBlock.FontFamily = fontFamily;
+                        textBlock.FontSize = settings.FontSize;
+                    }
+                    else if (child is System.Windows.Controls.Control control)
+                    {
+                        control.FontFamily = fontFamily;
+                        control.FontSize = settings.FontSize;
+                    }
+                }
+            }
+            catch { }
+        }
+
+        private IEnumerable<System.Windows.DependencyObject> GetAllChildren(System.Windows.DependencyObject? parent)
+        {
+            if (parent == null) yield break;
+            
+            int childCount = System.Windows.Media.VisualTreeHelper.GetChildrenCount(parent);
+            for (int i = 0; i < childCount; i++)
+            {
+                var child = System.Windows.Media.VisualTreeHelper.GetChild(parent, i);
+                yield return child;
+                foreach (var descendant in GetAllChildren(child))
+                {
+                    yield return descendant;
+                }
+            }
         }
 
         private void CenterWindowAtTop()
