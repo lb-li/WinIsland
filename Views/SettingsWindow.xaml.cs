@@ -583,7 +583,7 @@ namespace WinIsland
 
         private void CmbFontFamily_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (CmbFontFamily.SelectedValue is System.Windows.Media.FontFamily selectedFont)
+            if (CmbFontFamily.SelectedItem is System.Windows.Media.FontFamily selectedFont)
             {
                 UpdateFontPreview(selectedFont.Source, SliderFontSize.Value);
             }

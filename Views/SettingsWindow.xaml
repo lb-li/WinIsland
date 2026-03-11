@@ -4,77 +4,86 @@
         Title="WinIsland Settings"
         Width="1120"
         Height="760"
-        WindowStartupLocation="CenterScreen"
-        ResizeMode="NoResize"
-        Background="#FFFFFF"
-        WindowStyle="None"
         AllowsTransparency="False"
-        MouseDown="Window_MouseDown">
+        Background="#FFFFFF"
+        MouseDown="Window_MouseDown"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="None">
 
     <Window.Resources>
         <Style x:Key="BrutalCard" TargetType="Border">
-            <Setter Property="Background" Value="#FFFFFF"/>
-            <Setter Property="BorderBrush" Value="#000000"/>
-            <Setter Property="BorderThickness" Value="4"/>
-            <Setter Property="Padding" Value="16"/>
-            <Setter Property="Margin" Value="0,0,0,14"/>
+            <Setter Property="Background" Value="#FFFFFF" />
+            <Setter Property="BorderBrush" Value="#000000" />
+            <Setter Property="BorderThickness" Value="4" />
+            <Setter Property="Padding" Value="16" />
+            <Setter Property="Margin" Value="0,0,0,14" />
             <Setter Property="Effect">
                 <Setter.Value>
-                    <DropShadowEffect Color="#000000" ShadowDepth="8" BlurRadius="0" Opacity="1"/>
+                    <DropShadowEffect BlurRadius="0"
+                                      Opacity="1"
+                                      ShadowDepth="8"
+                                      Color="#000000" />
                 </Setter.Value>
             </Setter>
         </Style>
 
         <Style x:Key="SectionTitle" TargetType="TextBlock">
-            <Setter Property="Foreground" Value="#000000"/>
-            <Setter Property="FontFamily" Value="Segoe UI Black"/>
-            <Setter Property="FontSize" Value="19"/>
-            <Setter Property="Margin" Value="0,0,0,10"/>
+            <Setter Property="Foreground" Value="#000000" />
+            <Setter Property="FontFamily" Value="Segoe UI Black" />
+            <Setter Property="FontSize" Value="19" />
+            <Setter Property="Margin" Value="0,0,0,10" />
         </Style>
 
         <Style x:Key="LabelStyle" TargetType="TextBlock">
-            <Setter Property="Foreground" Value="#222222"/>
-            <Setter Property="FontFamily" Value="Consolas"/>
-            <Setter Property="FontSize" Value="12"/>
-            <Setter Property="VerticalAlignment" Value="Center"/>
-            <Setter Property="Margin" Value="0,0,8,0"/>
+            <Setter Property="Foreground" Value="#222222" />
+            <Setter Property="FontFamily" Value="Consolas" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="Margin" Value="0,0,8,0" />
         </Style>
 
         <Style x:Key="InputStyle" TargetType="TextBox">
-            <Setter Property="Background" Value="#FFFFFF"/>
-            <Setter Property="Foreground" Value="#000000"/>
-            <Setter Property="BorderBrush" Value="#000000"/>
-            <Setter Property="BorderThickness" Value="3"/>
-            <Setter Property="Padding" Value="8,4"/>
-            <Setter Property="Height" Value="34"/>
-            <Setter Property="VerticalContentAlignment" Value="Center"/>
-            <Setter Property="FontFamily" Value="Consolas"/>
+            <Setter Property="Background" Value="#FFFFFF" />
+            <Setter Property="Foreground" Value="#000000" />
+            <Setter Property="BorderBrush" Value="#000000" />
+            <Setter Property="BorderThickness" Value="3" />
+            <Setter Property="Padding" Value="8,4" />
+            <Setter Property="Height" Value="34" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="FontFamily" Value="Consolas" />
         </Style>
 
         <Style x:Key="BrutalButton" TargetType="Button">
-            <Setter Property="Foreground" Value="#000000"/>
-            <Setter Property="Background" Value="#FFFFFF"/>
-            <Setter Property="BorderBrush" Value="#000000"/>
-            <Setter Property="BorderThickness" Value="3"/>
-            <Setter Property="Padding" Value="12,7"/>
-            <Setter Property="FontFamily" Value="Segoe UI Black"/>
-            <Setter Property="FontSize" Value="13"/>
-            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Foreground" Value="#000000" />
+            <Setter Property="Background" Value="#FFFFFF" />
+            <Setter Property="BorderBrush" Value="#000000" />
+            <Setter Property="BorderThickness" Value="3" />
+            <Setter Property="Padding" Value="12,7" />
+            <Setter Property="FontFamily" Value="Segoe UI Black" />
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="Cursor" Value="Hand" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <Border x:Name="Bd" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                        <Border x:Name="Bd"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}">
                             <Border.Effect>
-                                <DropShadowEffect Color="#000000" ShadowDepth="6" BlurRadius="0" Opacity="1"/>
+                                <DropShadowEffect BlurRadius="0"
+                                                  Opacity="1"
+                                                  ShadowDepth="6"
+                                                  Color="#000000" />
                             </Border.Effect>
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="Bd" Property="Background" Value="#CCFF00"/>
+                                <Setter TargetName="Bd" Property="Background" Value="#CCFF00" />
                             </Trigger>
                             <Trigger Property="IsPressed" Value="True">
-                                <Setter TargetName="Bd" Property="Opacity" Value="0.85"/>
+                                <Setter TargetName="Bd" Property="Opacity" Value="0.85" />
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -83,41 +92,75 @@
         </Style>
 
         <Style x:Key="BrutalComboBox" TargetType="ComboBox">
-            <Setter Property="Background" Value="#FFFFFF"/>
-            <Setter Property="Foreground" Value="#000000"/>
-            <Setter Property="BorderBrush" Value="#000000"/>
-            <Setter Property="BorderThickness" Value="3"/>
-            <Setter Property="Padding" Value="8,4"/>
-            <Setter Property="FontFamily" Value="Consolas"/>
-            <Setter Property="FontSize" Value="12"/>
-            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Background" Value="#FFFFFF" />
+            <Setter Property="Foreground" Value="#000000" />
+            <Setter Property="BorderBrush" Value="#000000" />
+            <Setter Property="BorderThickness" Value="3" />
+            <Setter Property="Padding" Value="8,4" />
+            <Setter Property="FontFamily" Value="Consolas" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="Cursor" Value="Hand" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="ComboBox">
                         <Grid>
-                            <Border x:Name="Border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                            <Border x:Name="Border"
+                                    Background="{TemplateBinding Background}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}">
                                 <Border.Effect>
-                                    <DropShadowEffect Color="#000000" ShadowDepth="4" BlurRadius="0" Opacity="1"/>
+                                    <DropShadowEffect BlurRadius="0"
+                                                      Opacity="1"
+                                                      ShadowDepth="4"
+                                                      Color="#000000" />
                                 </Border.Effect>
                                 <Grid>
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="34"/>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="34" />
                                     </Grid.ColumnDefinitions>
-                                    <ContentPresenter x:Name="ContentSite" Grid.Column="0" ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}" Content="{TemplateBinding SelectionBoxItem}" Margin="10,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                                    <TextBox x:Name="PART_EditableTextBox" Grid.Column="0" Visibility="Hidden" Background="Transparent" BorderThickness="0" Margin="10,0,0,0" VerticalAlignment="Center" IsReadOnly="{TemplateBinding IsReadOnly}" FontFamily="{TemplateBinding FontFamily}" FontSize="{TemplateBinding FontSize}"/>
-                                    <ToggleButton x:Name="ToggleButton" Grid.Column="1" Focusable="False" IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" ClickMode="Press">
+                                    <ContentPresenter x:Name="ContentSite"
+                                                      Grid.Column="0"
+                                                      Margin="10,0,0,0"
+                                                      HorizontalAlignment="Left"
+                                                      VerticalAlignment="Center"
+                                                      Content="{TemplateBinding SelectionBoxItem}"
+                                                      ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}" />
+                                    <TextBox x:Name="PART_EditableTextBox"
+                                             Grid.Column="0"
+                                             Margin="10,0,0,0"
+                                             VerticalAlignment="Center"
+                                             Background="Transparent"
+                                             BorderThickness="0"
+                                             FontFamily="{TemplateBinding FontFamily}"
+                                             FontSize="{TemplateBinding FontSize}"
+                                             IsReadOnly="{TemplateBinding IsReadOnly}"
+                                             Visibility="Hidden" />
+                                    <ToggleButton x:Name="ToggleButton"
+                                                  Grid.Column="1"
+                                                  ClickMode="Press"
+                                                  Focusable="False"
+                                                  IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}">
                                         <ToggleButton.Template>
                                             <ControlTemplate TargetType="ToggleButton">
-                                                <Border x:Name="BtnBorder" Background="#FFFFFF" BorderBrush="#000000" BorderThickness="3,0,0,0">
-                                                    <TextBlock x:Name="Arrow" Text="▼" FontFamily="Consolas" FontSize="12" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                <Border x:Name="BtnBorder"
+                                                        Background="#FFFFFF"
+                                                        BorderBrush="#000000"
+                                                        BorderThickness="3,0,0,0">
+                                                    <TextBlock x:Name="Arrow"
+                                                               HorizontalAlignment="Center"
+                                                               VerticalAlignment="Center"
+                                                               FontFamily="Consolas"
+                                                               FontSize="12"
+                                                               FontWeight="Bold"
+                                                               Text="▼" />
                                                 </Border>
                                                 <ControlTemplate.Triggers>
                                                     <Trigger Property="IsMouseOver" Value="True">
-                                                        <Setter TargetName="BtnBorder" Property="Background" Value="#CCFF00"/>
+                                                        <Setter TargetName="BtnBorder" Property="Background" Value="#CCFF00" />
                                                     </Trigger>
                                                     <Trigger Property="IsChecked" Value="True">
-                                                        <Setter TargetName="Arrow" Property="Text" Value="▲"/>
+                                                        <Setter TargetName="Arrow" Property="Text" Value="▲" />
                                                     </Trigger>
                                                 </ControlTemplate.Triggers>
                                             </ControlTemplate>
@@ -125,13 +168,28 @@
                                     </ToggleButton>
                                 </Grid>
                             </Border>
-                            <Popup x:Name="Popup" Placement="Bottom" IsOpen="{TemplateBinding IsDropDownOpen}" AllowsTransparency="True" Focusable="False" PopupAnimation="Slide">
-                                <Border x:Name="DropDown" SnapsToDevicePixels="True" MinWidth="{TemplateBinding ActualWidth}" MaxHeight="{TemplateBinding MaxDropDownHeight}" Background="#FFFFFF" BorderBrush="#000000" BorderThickness="3" Margin="0,2,0,0">
+                            <Popup x:Name="Popup"
+                                   AllowsTransparency="True"
+                                   Focusable="False"
+                                   IsOpen="{TemplateBinding IsDropDownOpen}"
+                                   Placement="Bottom"
+                                   PopupAnimation="Slide">
+                                <Border x:Name="DropDown"
+                                        MinWidth="{TemplateBinding ActualWidth}"
+                                        MaxHeight="{TemplateBinding MaxDropDownHeight}"
+                                        Margin="0,2,0,0"
+                                        Background="#FFFFFF"
+                                        BorderBrush="#000000"
+                                        BorderThickness="3"
+                                        SnapsToDevicePixels="True">
                                     <Border.Effect>
-                                        <DropShadowEffect Color="#000000" ShadowDepth="6" BlurRadius="0" Opacity="1"/>
+                                        <DropShadowEffect BlurRadius="0"
+                                                          Opacity="1"
+                                                          ShadowDepth="6"
+                                                          Color="#000000" />
                                     </Border.Effect>
                                     <ScrollViewer Margin="4" SnapsToDevicePixels="True">
-                                        <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Contained"/>
+                                        <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Contained" />
                                     </ScrollViewer>
                                 </Border>
                             </Popup>
@@ -142,25 +200,29 @@
         </Style>
 
         <Style x:Key="BrutalComboBoxItem" TargetType="ComboBoxItem">
-            <Setter Property="Background" Value="#FFFFFF"/>
-            <Setter Property="Foreground" Value="#000000"/>
-            <Setter Property="Padding" Value="10,8"/>
-            <Setter Property="FontFamily" Value="Consolas"/>
-            <Setter Property="FontSize" Value="12"/>
-            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Background" Value="#FFFFFF" />
+            <Setter Property="Foreground" Value="#000000" />
+            <Setter Property="Padding" Value="10,8" />
+            <Setter Property="FontFamily" Value="Consolas" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="Cursor" Value="Hand" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="ComboBoxItem">
-                        <Border x:Name="Border" Background="{TemplateBinding Background}" BorderBrush="Transparent" BorderThickness="0" Padding="{TemplateBinding Padding}">
-                            <ContentPresenter HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                        <Border x:Name="Border"
+                                Padding="{TemplateBinding Padding}"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="Transparent"
+                                BorderThickness="0">
+                            <ContentPresenter HorizontalAlignment="Left" VerticalAlignment="Center" />
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="Border" Property="Background" Value="#CCFF00"/>
+                                <Setter TargetName="Border" Property="Background" Value="#CCFF00" />
                             </Trigger>
                             <Trigger Property="IsSelected" Value="True">
-                                <Setter TargetName="Border" Property="Background" Value="#000000"/>
-                                <Setter Property="Foreground" Value="#FFFFFF"/>
+                                <Setter TargetName="Border" Property="Background" Value="#000000" />
+                                <Setter Property="Foreground" Value="#FFFFFF" />
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -169,19 +231,27 @@
         </Style>
 
         <Style x:Key="BrutalSlider" TargetType="Slider">
-            <Setter Property="Background" Value="#FFFFFF"/>
-            <Setter Property="Foreground" Value="#000000"/>
-            <Setter Property="Height" Value="24"/>
+            <Setter Property="Background" Value="#FFFFFF" />
+            <Setter Property="Foreground" Value="#000000" />
+            <Setter Property="Height" Value="24" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Slider">
                         <Grid>
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
-                            <Border x:Name="TrackBackground" Height="10" Background="#FFFFFF" BorderBrush="#000000" BorderThickness="3" VerticalAlignment="Center">
+                            <Border x:Name="TrackBackground"
+                                    Height="10"
+                                    VerticalAlignment="Center"
+                                    Background="#FFFFFF"
+                                    BorderBrush="#000000"
+                                    BorderThickness="3">
                                 <Border.Effect>
-                                    <DropShadowEffect Color="#000000" ShadowDepth="2" BlurRadius="0" Opacity="1"/>
+                                    <DropShadowEffect BlurRadius="0"
+                                                      Opacity="1"
+                                                      ShadowDepth="2"
+                                                      Color="#000000" />
                                 </Border.Effect>
                             </Border>
                             <Track x:Name="PART_Track">
@@ -189,7 +259,9 @@
                                     <RepeatButton Command="Slider.DecreaseLarge">
                                         <RepeatButton.Template>
                                             <ControlTemplate TargetType="RepeatButton">
-                                                <Border Background="#000000" Height="4" VerticalAlignment="Center"/>
+                                                <Border Height="4"
+                                                        VerticalAlignment="Center"
+                                                        Background="#000000" />
                                             </ControlTemplate>
                                         </RepeatButton.Template>
                                     </RepeatButton>
@@ -198,17 +270,26 @@
                                     <Thumb>
                                         <Thumb.Template>
                                             <ControlTemplate TargetType="Thumb">
-                                                <Border x:Name="ThumbBorder" Width="24" Height="24" Background="#FFFFFF" BorderBrush="#000000" BorderThickness="3" Cursor="Hand">
+                                                <Border x:Name="ThumbBorder"
+                                                        Width="24"
+                                                        Height="24"
+                                                        Background="#FFFFFF"
+                                                        BorderBrush="#000000"
+                                                        BorderThickness="3"
+                                                        Cursor="Hand">
                                                     <Border.Effect>
-                                                        <DropShadowEffect Color="#000000" ShadowDepth="4" BlurRadius="0" Opacity="1"/>
+                                                        <DropShadowEffect BlurRadius="0"
+                                                                          Opacity="1"
+                                                                          ShadowDepth="4"
+                                                                          Color="#000000" />
                                                     </Border.Effect>
                                                 </Border>
                                                 <ControlTemplate.Triggers>
                                                     <Trigger Property="IsMouseOver" Value="True">
-                                                        <Setter TargetName="ThumbBorder" Property="Background" Value="#CCFF00"/>
+                                                        <Setter TargetName="ThumbBorder" Property="Background" Value="#CCFF00" />
                                                     </Trigger>
                                                     <Trigger Property="IsDragging" Value="True">
-                                                        <Setter TargetName="ThumbBorder" Property="Background" Value="#FF006E"/>
+                                                        <Setter TargetName="ThumbBorder" Property="Background" Value="#FF006E" />
                                                     </Trigger>
                                                 </ControlTemplate.Triggers>
                                             </ControlTemplate>
@@ -219,7 +300,7 @@
                                     <RepeatButton Command="Slider.IncreaseLarge">
                                         <RepeatButton.Template>
                                             <ControlTemplate TargetType="RepeatButton">
-                                                <Border Background="Transparent"/>
+                                                <Border Background="Transparent" />
                                             </ControlTemplate>
                                         </RepeatButton.Template>
                                     </RepeatButton>
@@ -231,43 +312,74 @@
             </Setter>
         </Style>
 
-        <Style x:Key="PrimaryButtonStyle" TargetType="Button" BasedOn="{StaticResource BrutalButton}">
-            <Setter Property="Background" Value="#FF006E"/>
-            <Setter Property="Foreground" Value="#FFFFFF"/>
+        <Style x:Key="PrimaryButtonStyle"
+               BasedOn="{StaticResource BrutalButton}"
+               TargetType="Button">
+            <Setter Property="Background" Value="#FF006E" />
+            <Setter Property="Foreground" Value="#FFFFFF" />
         </Style>
 
         <Style x:Key="ToggleSwitchStyle" TargetType="CheckBox">
-            <Setter Property="Foreground" Value="#000000"/>
-            <Setter Property="FontSize" Value="14"/>
-            <Setter Property="FontFamily" Value="Segoe UI Semibold"/>
-            <Setter Property="Margin" Value="0,5,0,5"/>
+            <Setter Property="Foreground" Value="#000000" />
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="FontFamily" Value="Segoe UI Semibold" />
+            <Setter Property="Margin" Value="0,5,0,5" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="CheckBox">
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
-                            <ContentPresenter VerticalAlignment="Center" Margin="0,0,12,0"/>
-                            <Border x:Name="SwitchTrack" Grid.Column="1" Width="68" Height="28" BorderBrush="#000000" BorderThickness="3" Background="#FFFFFF">
+                            <ContentPresenter Margin="0,0,12,0" VerticalAlignment="Center" />
+                            <Border x:Name="SwitchTrack"
+                                    Grid.Column="1"
+                                    Width="68"
+                                    Height="28"
+                                    Background="#FFFFFF"
+                                    BorderBrush="#000000"
+                                    BorderThickness="3">
                                 <Border.Effect>
-                                    <DropShadowEffect Color="#000000" ShadowDepth="4" BlurRadius="0" Opacity="1"/>
+                                    <DropShadowEffect BlurRadius="0"
+                                                      Opacity="1"
+                                                      ShadowDepth="4"
+                                                      Color="#000000" />
                                 </Border.Effect>
                                 <Grid>
-                                    <TextBlock x:Name="TxtOff" Text="OFF" FontFamily="Consolas" FontSize="10" FontWeight="Bold" HorizontalAlignment="Right" Margin="0,0,6,0" VerticalAlignment="Center"/>
-                                    <TextBlock x:Name="TxtOn" Text="ON" FontFamily="Consolas" FontSize="10" FontWeight="Bold" HorizontalAlignment="Left" Margin="6,0,0,0" VerticalAlignment="Center" Visibility="Collapsed"/>
-                                    <Ellipse x:Name="Knob" Width="18" Height="18" Fill="#000000" HorizontalAlignment="Left" Margin="4,0,0,0"/>
+                                    <TextBlock x:Name="TxtOff"
+                                               Margin="0,0,6,0"
+                                               HorizontalAlignment="Right"
+                                               VerticalAlignment="Center"
+                                               FontFamily="Consolas"
+                                               FontSize="10"
+                                               FontWeight="Bold"
+                                               Text="OFF" />
+                                    <TextBlock x:Name="TxtOn"
+                                               Margin="6,0,0,0"
+                                               HorizontalAlignment="Left"
+                                               VerticalAlignment="Center"
+                                               FontFamily="Consolas"
+                                               FontSize="10"
+                                               FontWeight="Bold"
+                                               Text="ON"
+                                               Visibility="Collapsed" />
+                                    <Ellipse x:Name="Knob"
+                                             Width="18"
+                                             Height="18"
+                                             Margin="4,0,0,0"
+                                             HorizontalAlignment="Left"
+                                             Fill="#000000" />
                                 </Grid>
                             </Border>
                         </Grid>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsChecked" Value="True">
-                                <Setter TargetName="SwitchTrack" Property="Background" Value="#CCFF00"/>
-                                <Setter TargetName="Knob" Property="HorizontalAlignment" Value="Right"/>
-                                <Setter TargetName="Knob" Property="Margin" Value="0,0,4,0"/>
-                                <Setter TargetName="TxtOn" Property="Visibility" Value="Visible"/>
-                                <Setter TargetName="TxtOff" Property="Visibility" Value="Collapsed"/>
+                                <Setter TargetName="SwitchTrack" Property="Background" Value="#CCFF00" />
+                                <Setter TargetName="Knob" Property="HorizontalAlignment" Value="Right" />
+                                <Setter TargetName="Knob" Property="Margin" Value="0,0,4,0" />
+                                <Setter TargetName="TxtOn" Property="Visibility" Value="Visible" />
+                                <Setter TargetName="TxtOff" Property="Visibility" Value="Collapsed" />
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -275,41 +387,48 @@
             </Setter>
         </Style>
 
-        <Style x:Key="PickerButton" TargetType="Button" BasedOn="{StaticResource BrutalButton}">
-            <Setter Property="FontFamily" Value="Consolas"/>
-            <Setter Property="Background" Value="#FFFFFF"/>
-            <Setter Property="MinWidth" Value="96"/>
+        <Style x:Key="PickerButton"
+               BasedOn="{StaticResource BrutalButton}"
+               TargetType="Button">
+            <Setter Property="FontFamily" Value="Consolas" />
+            <Setter Property="Background" Value="#FFFFFF" />
+            <Setter Property="MinWidth" Value="96" />
         </Style>
 
-        <Style x:Key="PopupOptionButton" TargetType="Button" BasedOn="{StaticResource BrutalButton}">
-            <Setter Property="FontFamily" Value="Consolas"/>
-            <Setter Property="FontSize" Value="12"/>
-            <Setter Property="Margin" Value="4"/>
-            <Setter Property="Padding" Value="6,4"/>
-            <Setter Property="MinWidth" Value="52"/>
+        <Style x:Key="PopupOptionButton"
+               BasedOn="{StaticResource BrutalButton}"
+               TargetType="Button">
+            <Setter Property="FontFamily" Value="Consolas" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="Margin" Value="4" />
+            <Setter Property="Padding" Value="6,4" />
+            <Setter Property="MinWidth" Value="52" />
         </Style>
 
         <Style x:Key="DialHourButton" TargetType="Button">
-            <Setter Property="Foreground" Value="#000000"/>
-            <Setter Property="Background" Value="#FFFFFF"/>
-            <Setter Property="BorderBrush" Value="#000000"/>
-            <Setter Property="BorderThickness" Value="2"/>
-            <Setter Property="Padding" Value="2,0"/>
-            <Setter Property="FontFamily" Value="Consolas"/>
-            <Setter Property="FontSize" Value="11"/>
-            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Foreground" Value="#000000" />
+            <Setter Property="Background" Value="#FFFFFF" />
+            <Setter Property="BorderBrush" Value="#000000" />
+            <Setter Property="BorderThickness" Value="2" />
+            <Setter Property="Padding" Value="2,0" />
+            <Setter Property="FontFamily" Value="Consolas" />
+            <Setter Property="FontSize" Value="11" />
+            <Setter Property="Cursor" Value="Hand" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <Border x:Name="Bd" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <Border x:Name="Bd"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="Bd" Property="Background" Value="#CCFF00"/>
+                                <Setter TargetName="Bd" Property="Background" Value="#CCFF00" />
                             </Trigger>
                             <Trigger Property="IsPressed" Value="True">
-                                <Setter TargetName="Bd" Property="Opacity" Value="0.88"/>
+                                <Setter TargetName="Bd" Property="Opacity" Value="0.88" />
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -320,99 +439,172 @@
 
     <Grid Background="#FFFFFF">
         <Grid.RowDefinitions>
-            <RowDefinition Height="86"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="84"/>
+            <RowDefinition Height="86" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="84" />
         </Grid.RowDefinitions>
 
-        <Border Grid.Row="0" BorderBrush="#000000" BorderThickness="0,0,0,4" Background="#FFFFFF">
+        <Border Grid.Row="0"
+                Background="#FFFFFF"
+                BorderBrush="#000000"
+                BorderThickness="0,0,0,4">
             <Grid Margin="22,0">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
                 <StackPanel VerticalAlignment="Center">
-                    <TextBlock Text="RAW SETTINGS" FontFamily="Segoe UI Black" FontSize="32" Foreground="#000000"/>
-                    <TextBlock Text="NEO BRUTAL - WHITE THEME" FontFamily="Consolas" Foreground="#222222" Margin="0,2,0,0"/>
+                    <TextBlock FontFamily="Segoe UI Black"
+                               FontSize="32"
+                               Foreground="#000000"
+                               Text="RAW SETTINGS" />
+                    <TextBlock Margin="0,2,0,0"
+                               FontFamily="Consolas"
+                               Foreground="#222222"
+                               Text="NEO BRUTAL - WHITE THEME" />
                 </StackPanel>
-                <Button Grid.Column="1" Width="42" Height="42" Content="✕" Click="Cancel_Click" Style="{StaticResource BrutalButton}" Background="#00D9FF"/>
+                <Button Grid.Column="1"
+                        Width="42"
+                        Height="42"
+                        Background="#00D9FF"
+                        Click="Cancel_Click"
+                        Content="✕"
+                        Style="{StaticResource BrutalButton}" />
             </Grid>
         </Border>
 
-        <ScrollViewer Grid.Row="1" Margin="22,14,22,14" VerticalScrollBarVisibility="Auto">
+        <ScrollViewer Grid.Row="1"
+                      Margin="22,14,22,14"
+                      VerticalScrollBarVisibility="Auto">
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
                 <StackPanel Grid.Column="0" Margin="0,0,10,0">
                     <Border Style="{StaticResource BrutalCard}">
                         <StackPanel>
-                            <TextBlock Text="NOTIFICATIONS" Style="{StaticResource SectionTitle}"/>
-                            <CheckBox x:Name="ChkMessageNotification" Content="应用消息通知" Style="{StaticResource ToggleSwitchStyle}"/>
-                            <CheckBox x:Name="ChkBluetoothNotification" Content="蓝牙设备通知" Style="{StaticResource ToggleSwitchStyle}"/>
-                            <CheckBox x:Name="ChkUsbNotification" Content="USB 设备通知" Style="{StaticResource ToggleSwitchStyle}"/>
-                            <CheckBox x:Name="ChkCleanSystemNotification" Content="接管系统通知中心" Style="{StaticResource ToggleSwitchStyle}" Checked="ChkCleanSystemNotification_Checked"/>
+                            <TextBlock Style="{StaticResource SectionTitle}" Text="NOTIFICATIONS" />
+                            <CheckBox x:Name="ChkMessageNotification"
+                                      Content="应用消息通知"
+                                      Style="{StaticResource ToggleSwitchStyle}" />
+                            <CheckBox x:Name="ChkBluetoothNotification"
+                                      Content="蓝牙设备通知"
+                                      Style="{StaticResource ToggleSwitchStyle}" />
+                            <CheckBox x:Name="ChkUsbNotification"
+                                      Content="USB 设备通知"
+                                      Style="{StaticResource ToggleSwitchStyle}" />
+                            <CheckBox x:Name="ChkCleanSystemNotification"
+                                      Checked="ChkCleanSystemNotification_Checked"
+                                      Content="接管系统通知中心"
+                                      Style="{StaticResource ToggleSwitchStyle}" />
                         </StackPanel>
                     </Border>
 
                     <Border Style="{StaticResource BrutalCard}">
                         <StackPanel>
-                            <TextBlock Text="MEDIA" Style="{StaticResource SectionTitle}"/>
-                            <CheckBox x:Name="ChkShowMediaPlayer" Content="显示媒体播放器" Style="{StaticResource ToggleSwitchStyle}"/>
-                            <CheckBox x:Name="ChkShowVisualizer" Content="音频可视化" Style="{StaticResource ToggleSwitchStyle}"/>
+                            <TextBlock Style="{StaticResource SectionTitle}" Text="MEDIA" />
+                            <CheckBox x:Name="ChkShowMediaPlayer"
+                                      Content="显示媒体播放器"
+                                      Style="{StaticResource ToggleSwitchStyle}" />
+                            <CheckBox x:Name="ChkShowVisualizer"
+                                      Content="音频可视化"
+                                      Style="{StaticResource ToggleSwitchStyle}" />
                         </StackPanel>
                     </Border>
 
                     <Border Style="{StaticResource BrutalCard}">
                         <StackPanel>
-                            <TextBlock Text="SYSTEM" Style="{StaticResource SectionTitle}"/>
-                            <CheckBox x:Name="ChkStartWithWindows" Content="开机自启动" Style="{StaticResource ToggleSwitchStyle}"/>
-                            <CheckBox x:Name="ChkEnableAutoHide" Content="智能隐藏" Style="{StaticResource ToggleSwitchStyle}"/>
-                            <CheckBox x:Name="ChkSystemMonitor" Content="待机显示系统监控" Style="{StaticResource ToggleSwitchStyle}"/>
+                            <TextBlock Style="{StaticResource SectionTitle}" Text="SYSTEM" />
+                            <CheckBox x:Name="ChkStartWithWindows"
+                                      Content="开机自启动"
+                                      Style="{StaticResource ToggleSwitchStyle}" />
+                            <CheckBox x:Name="ChkEnableAutoHide"
+                                      Content="智能隐藏"
+                                      Style="{StaticResource ToggleSwitchStyle}" />
+                            <CheckBox x:Name="ChkSystemMonitor"
+                                      Content="待机显示系统监控"
+                                      Style="{StaticResource ToggleSwitchStyle}" />
                         </StackPanel>
                     </Border>
 
                     <Border Style="{StaticResource BrutalCard}">
                         <StackPanel>
-                            <TextBlock Text="FONT" Style="{StaticResource SectionTitle}"/>
+                            <TextBlock Style="{StaticResource SectionTitle}" Text="FONT" />
                             <Grid Margin="0,0,0,12">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
-                                <TextBlock Grid.Column="0" Text="字体" Style="{StaticResource LabelStyle}"/>
-                                <ComboBox x:Name="CmbFontFamily" Grid.Column="1" Height="34" Margin="0,0,8,0" 
-                                          DisplayMemberPath="Source" SelectedValuePath="Source"
-                                          Style="{StaticResource BrutalComboBox}"
+                                <TextBlock Grid.Column="0"
+                                           Style="{StaticResource LabelStyle}"
+                                           Text="字体" />
+                                <ComboBox x:Name="CmbFontFamily"
+                                          Grid.Column="1"
+                                          Height="34"
+                                          Margin="0,0,8,0"
+                                          DisplayMemberPath="Source"
                                           ItemContainerStyle="{StaticResource BrutalComboBoxItem}"
-                                          SelectionChanged="CmbFontFamily_SelectionChanged"/>
-                                <Button Grid.Column="2" Content="重置" Click="BtnResetFont_Click" Style="{StaticResource BrutalButton}" Background="#FF9500" Padding="10,4"/>
+                                          SelectedValuePath="Source"
+                                          SelectionChanged="CmbFontFamily_SelectionChanged"
+                                          Style="{StaticResource BrutalComboBox}" />
+                                <Button Grid.Column="2"
+                                        Padding="10,4"
+                                        Background="#FF9500"
+                                        Click="BtnResetFont_Click"
+                                        Content="重置"
+                                        Style="{StaticResource BrutalButton}" />
                             </Grid>
                             <Grid Margin="0,0,0,12">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
-                                <TextBlock Grid.Column="0" Text="字号" Style="{StaticResource LabelStyle}"/>
+                                <TextBlock Grid.Column="0"
+                                           Style="{StaticResource LabelStyle}"
+                                           Text="字号" />
                                 <StackPanel Grid.Column="1" Orientation="Horizontal">
-                                    <Slider x:Name="SliderFontSize" Width="150" Minimum="8" Maximum="32" Value="14" 
+                                    <Slider x:Name="SliderFontSize"
+                                            Width="150"
+                                            IsSnapToTickEnabled="True"
+                                            Maximum="16"
+                                            Minimum="8"
                                             Style="{StaticResource BrutalSlider}"
-                                            TickFrequency="1" IsSnapToTickEnabled="True"
-                                            ValueChanged="SliderFontSize_ValueChanged"/>
-                                    <TextBlock x:Name="TxtFontSizeValue" Text="14" Width="40" TextAlignment="Center" 
-                                               VerticalAlignment="Center" Margin="8,0,0,0" FontFamily="Consolas" FontWeight="Bold"/>
+                                            TickFrequency="1"
+                                            ValueChanged="SliderFontSize_ValueChanged"
+                                            Value="14" />
+                                    <TextBlock x:Name="TxtFontSizeValue"
+                                               Width="40"
+                                               Margin="8,0,0,0"
+                                               VerticalAlignment="Center"
+                                               FontFamily="Consolas"
+                                               FontWeight="Bold"
+                                               Text="14"
+                                               TextAlignment="Center" />
                                 </StackPanel>
                             </Grid>
-                            <TextBlock Text="预览效果" Style="{StaticResource LabelStyle}" Margin="0,0,0,4"/>
-                            <Border Background="#FFFFFF" BorderBrush="#000000" BorderThickness="3" Padding="12" Margin="0,0,0,8">
+                            <TextBlock Margin="0,0,0,4"
+                                       Style="{StaticResource LabelStyle}"
+                                       Text="预览效果" />
+                            <Border Margin="0,0,0,8"
+                                    Padding="12"
+                                    Background="#FFFFFF"
+                                    BorderBrush="#000000"
+                                    BorderThickness="3">
                                 <Border.Effect>
-                                    <DropShadowEffect Color="#000000" ShadowDepth="4" BlurRadius="0" Opacity="1"/>
+                                    <DropShadowEffect BlurRadius="0"
+                                                      Opacity="1"
+                                                      ShadowDepth="4"
+                                                      Color="#000000" />
                                 </Border.Effect>
-                                <TextBlock x:Name="TxtFontPreview" Text="WinIsland - 字体预览示例文本 The quick brown fox jumps over the lazy dog" 
-                                           TextWrapping="Wrap" Foreground="#000000" FontFamily="Segoe UI" FontSize="14"/>
+                                <TextBlock x:Name="TxtFontPreview"
+                                           FontFamily="Segoe UI"
+                                           FontSize="14"
+                                           Foreground="#000000"
+                                           Text="WinIsland - 字体预览示例文本 The quick brown fox jumps over the lazy dog"
+                                           TextWrapping="Wrap" />
                             </Border>
                         </StackPanel>
                     </Border>
@@ -421,66 +613,134 @@
                 <StackPanel Grid.Column="1" Margin="10,0,0,0">
                     <Border Style="{StaticResource BrutalCard}">
                         <StackPanel>
-                            <TextBlock Text="FOCUS" Style="{StaticResource SectionTitle}"/>
-                            <CheckBox x:Name="ChkFocusMode" Content="双击灵动岛开启番茄钟" Style="{StaticResource ToggleSwitchStyle}" Checked="ChkFocusMode_Checked" Unchecked="ChkFocusMode_Checked"/>
-                            <StackPanel x:Name="PanelFocusSettings" Orientation="Horizontal" Margin="0,8,0,0" Visibility="Collapsed">
-                                <TextBlock Text="时长(分钟)" Style="{StaticResource LabelStyle}"/>
-                                <TextBox x:Name="TxtPomodoroDuration" Width="100" Style="{StaticResource InputStyle}" PreviewTextInput="NumberValidationTextBox"/>
+                            <TextBlock Style="{StaticResource SectionTitle}" Text="FOCUS" />
+                            <CheckBox x:Name="ChkFocusMode"
+                                      Checked="ChkFocusMode_Checked"
+                                      Content="双击灵动岛开启番茄钟"
+                                      Style="{StaticResource ToggleSwitchStyle}"
+                                      Unchecked="ChkFocusMode_Checked" />
+                            <StackPanel x:Name="PanelFocusSettings"
+                                        Margin="0,8,0,0"
+                                        Orientation="Horizontal"
+                                        Visibility="Collapsed">
+                                <TextBlock Style="{StaticResource LabelStyle}" Text="时长(分钟)" />
+                                <TextBox x:Name="TxtPomodoroDuration"
+                                         Width="100"
+                                         PreviewTextInput="NumberValidationTextBox"
+                                         Style="{StaticResource InputStyle}" />
                             </StackPanel>
                         </StackPanel>
                     </Border>
 
                     <Border Style="{StaticResource BrutalCard}">
                         <StackPanel>
-                            <TextBlock Text="WATER" Style="{StaticResource SectionTitle}"/>
-                            <CheckBox x:Name="ChkDrinkWater" Content="启用喝水提醒" Style="{StaticResource ToggleSwitchStyle}" Checked="ChkDrinkWater_Checked" Unchecked="ChkDrinkWater_Unchecked"/>
+                            <TextBlock Style="{StaticResource SectionTitle}" Text="WATER" />
+                            <CheckBox x:Name="ChkDrinkWater"
+                                      Checked="ChkDrinkWater_Checked"
+                                      Content="启用喝水提醒"
+                                      Style="{StaticResource ToggleSwitchStyle}"
+                                      Unchecked="ChkDrinkWater_Unchecked" />
 
-                            <StackPanel x:Name="PanelDrinkWaterSettings" Visibility="Collapsed" Margin="0,8,0,0">
-                                <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
-                                    <RadioButton x:Name="RbModeInterval" Content="间隔模式" GroupName="Mode" IsChecked="True" Foreground="#000000" Margin="0,0,14,0" Checked="RbMode_Checked"/>
-                                    <RadioButton x:Name="RbModeCustom" Content="自定义时间" GroupName="Mode" Foreground="#000000" Checked="RbMode_Checked"/>
+                            <StackPanel x:Name="PanelDrinkWaterSettings"
+                                        Margin="0,8,0,0"
+                                        Visibility="Collapsed">
+                                <StackPanel Margin="0,0,0,8" Orientation="Horizontal">
+                                    <RadioButton x:Name="RbModeInterval"
+                                                 Margin="0,0,14,0"
+                                                 Checked="RbMode_Checked"
+                                                 Content="间隔模式"
+                                                 Foreground="#000000"
+                                                 GroupName="Mode"
+                                                 IsChecked="True" />
+                                    <RadioButton x:Name="RbModeCustom"
+                                                 Checked="RbMode_Checked"
+                                                 Content="自定义时间"
+                                                 Foreground="#000000"
+                                                 GroupName="Mode" />
                                 </StackPanel>
 
                                 <StackPanel x:Name="PanelModeInterval">
                                     <Grid Margin="0,0,0,8">
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto"/>
-                                            <ColumnDefinition Width="86"/>
-                                            <ColumnDefinition Width="10"/>
-                                            <ColumnDefinition Width="Auto"/>
-                                            <ColumnDefinition Width="110"/>
-                                            <ColumnDefinition Width="8"/>
-                                            <ColumnDefinition Width="110"/>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="86" />
+                                            <ColumnDefinition Width="10" />
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="110" />
+                                            <ColumnDefinition Width="8" />
+                                            <ColumnDefinition Width="110" />
                                         </Grid.ColumnDefinitions>
-                                        <TextBlock Grid.Column="0" Text="间隔" Style="{StaticResource LabelStyle}"/>
-                                        <TextBox Grid.Column="1" x:Name="TxtDrinkWaterInterval" Style="{StaticResource InputStyle}"/>
-                                        <TextBlock Grid.Column="3" Text="活跃" Style="{StaticResource LabelStyle}"/>
-                                        <Button Grid.Column="4" x:Name="BtnDrinkStartTime" Content="09:00" Style="{StaticResource PickerButton}" Click="BtnDrinkStartTime_Click"/>
-                                        <TextBlock Grid.Column="5" Text="-" Foreground="#000000" VerticalAlignment="Center"/>
-                                        <Button Grid.Column="6" x:Name="BtnDrinkEndTime" Content="22:00" Style="{StaticResource PickerButton}" Click="BtnDrinkEndTime_Click"/>
+                                        <TextBlock Grid.Column="0"
+                                                   Style="{StaticResource LabelStyle}"
+                                                   Text="间隔" />
+                                        <TextBox x:Name="TxtDrinkWaterInterval"
+                                                 Grid.Column="1"
+                                                 Style="{StaticResource InputStyle}" />
+                                        <TextBlock Grid.Column="3"
+                                                   Style="{StaticResource LabelStyle}"
+                                                   Text="活跃" />
+                                        <Button x:Name="BtnDrinkStartTime"
+                                                Grid.Column="4"
+                                                Click="BtnDrinkStartTime_Click"
+                                                Content="09:00"
+                                                Style="{StaticResource PickerButton}" />
+                                        <TextBlock Grid.Column="5"
+                                                   VerticalAlignment="Center"
+                                                   Foreground="#000000"
+                                                   Text="-" />
+                                        <Button x:Name="BtnDrinkEndTime"
+                                                Grid.Column="6"
+                                                Click="BtnDrinkEndTime_Click"
+                                                Content="22:00"
+                                                Style="{StaticResource PickerButton}" />
                                     </Grid>
                                 </StackPanel>
 
                                 <StackPanel x:Name="PanelModeCustom" Visibility="Collapsed">
                                     <Grid Margin="0,0,0,8">
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*"/>
-                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
                                         </Grid.ColumnDefinitions>
-                                        <Button x:Name="BtnCustomDrinkTime" Grid.Column="0" Content="选择时间" Style="{StaticResource PickerButton}" Click="BtnCustomDrinkTime_Click"/>
-                                        <Button Grid.Column="1" Margin="8,0,0,0" Content="添加" Click="BtnAddCustomDrinkTime_Click" Style="{StaticResource BrutalButton}" Background="#00D9FF"/>
+                                        <Button x:Name="BtnCustomDrinkTime"
+                                                Grid.Column="0"
+                                                Click="BtnCustomDrinkTime_Click"
+                                                Content="选择时间"
+                                                Style="{StaticResource PickerButton}" />
+                                        <Button Grid.Column="1"
+                                                Margin="8,0,0,0"
+                                                Background="#00D9FF"
+                                                Click="BtnAddCustomDrinkTime_Click"
+                                                Content="添加"
+                                                Style="{StaticResource BrutalButton}" />
                                     </Grid>
 
                                     <ItemsControl x:Name="ListCustomDrinkTimes">
                                         <ItemsControl.ItemTemplate>
                                             <DataTemplate>
-                                                <Border Background="#FFFFFF" BorderBrush="#000000" BorderThickness="3" Padding="8" Margin="0,0,0,6">
+                                                <Border Margin="0,0,0,6"
+                                                        Padding="8"
+                                                        Background="#FFFFFF"
+                                                        BorderBrush="#000000"
+                                                        BorderThickness="3">
                                                     <Border.Effect>
-                                                        <DropShadowEffect Color="#000000" ShadowDepth="4" BlurRadius="0" Opacity="1"/>
+                                                        <DropShadowEffect BlurRadius="0"
+                                                                          Opacity="1"
+                                                                          ShadowDepth="4"
+                                                                          Color="#000000" />
                                                     </Border.Effect>
                                                     <Grid>
-                                                        <TextBlock Text="{Binding}" Foreground="#000000" VerticalAlignment="Center" FontFamily="Consolas"/>
-                                                        <Button HorizontalAlignment="Right" Content="删除" Tag="{Binding}" Click="BtnDeleteCustomDrinkTime_Click" Style="{StaticResource BrutalButton}" Padding="10,4" Background="#FF9500"/>
+                                                        <TextBlock VerticalAlignment="Center"
+                                                                   FontFamily="Consolas"
+                                                                   Foreground="#000000"
+                                                                   Text="{Binding}" />
+                                                        <Button Padding="10,4"
+                                                                HorizontalAlignment="Right"
+                                                                Background="#FF9500"
+                                                                Click="BtnDeleteCustomDrinkTime_Click"
+                                                                Content="删除"
+                                                                Style="{StaticResource BrutalButton}"
+                                                                Tag="{Binding}" />
                                                     </Grid>
                                                 </Border>
                                             </DataTemplate>
@@ -493,39 +753,84 @@
 
                     <Border Style="{StaticResource BrutalCard}">
                         <StackPanel>
-                            <TextBlock Text="TODO" Style="{StaticResource SectionTitle}"/>
-                            <CheckBox x:Name="ChkTodo" Content="启用待办提醒" Style="{StaticResource ToggleSwitchStyle}" Checked="ChkTodo_Checked" Unchecked="ChkTodo_Unchecked"/>
+                            <TextBlock Style="{StaticResource SectionTitle}" Text="TODO" />
+                            <CheckBox x:Name="ChkTodo"
+                                      Checked="ChkTodo_Checked"
+                                      Content="启用待办提醒"
+                                      Style="{StaticResource ToggleSwitchStyle}"
+                                      Unchecked="ChkTodo_Unchecked" />
 
-                            <StackPanel x:Name="PanelTodo" Visibility="Collapsed" Margin="0,8,0,0">
+                            <StackPanel x:Name="PanelTodo"
+                                        Margin="0,8,0,0"
+                                        Visibility="Collapsed">
                                 <Grid Margin="0,0,0,8">
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="170"/>
-                                        <ColumnDefinition Width="120"/>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="170" />
+                                        <ColumnDefinition Width="120" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
                                     </Grid.ColumnDefinitions>
-                                    <Button x:Name="BtnTodoDate" Grid.Column="0" Margin="0,0,8,0" Content="2026-01-01" Style="{StaticResource PickerButton}" Click="BtnTodoDate_Click"/>
-                                    <Button x:Name="BtnTodoTime" Grid.Column="1" Margin="0,0,8,0" Content="09:00" Style="{StaticResource PickerButton}" Click="BtnTodoTime_Click"/>
-                                    <TextBox x:Name="TxtTodoContent" Grid.Column="2" Margin="0,0,8,0" Style="{StaticResource InputStyle}"/>
-                                    <Button Grid.Column="3" Content="添加" Click="BtnAddTodo_Click" Style="{StaticResource BrutalButton}" Background="#CCFF00"/>
+                                    <Button x:Name="BtnTodoDate"
+                                            Grid.Column="0"
+                                            Margin="0,0,8,0"
+                                            Click="BtnTodoDate_Click"
+                                            Content="2026-01-01"
+                                            Style="{StaticResource PickerButton}" />
+                                    <Button x:Name="BtnTodoTime"
+                                            Grid.Column="1"
+                                            Margin="0,0,8,0"
+                                            Click="BtnTodoTime_Click"
+                                            Content="09:00"
+                                            Style="{StaticResource PickerButton}" />
+                                    <TextBox x:Name="TxtTodoContent"
+                                             Grid.Column="2"
+                                             Margin="0,0,8,0"
+                                             Style="{StaticResource InputStyle}" />
+                                    <Button Grid.Column="3"
+                                            Background="#CCFF00"
+                                            Click="BtnAddTodo_Click"
+                                            Content="添加"
+                                            Style="{StaticResource BrutalButton}" />
                                 </Grid>
 
                                 <ItemsControl x:Name="ListTodo">
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
-                                            <Border Background="#FFFFFF" BorderBrush="#000000" BorderThickness="3" Padding="8" Margin="0,0,0,6">
+                                            <Border Margin="0,0,0,6"
+                                                    Padding="8"
+                                                    Background="#FFFFFF"
+                                                    BorderBrush="#000000"
+                                                    BorderThickness="3">
                                                 <Border.Effect>
-                                                    <DropShadowEffect Color="#000000" ShadowDepth="4" BlurRadius="0" Opacity="1"/>
+                                                    <DropShadowEffect BlurRadius="0"
+                                                                      Opacity="1"
+                                                                      ShadowDepth="4"
+                                                                      Color="#000000" />
                                                 </Border.Effect>
                                                 <Grid>
                                                     <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="160"/>
-                                                        <ColumnDefinition Width="*"/>
-                                                        <ColumnDefinition Width="Auto"/>
+                                                        <ColumnDefinition Width="160" />
+                                                        <ColumnDefinition Width="*" />
+                                                        <ColumnDefinition Width="Auto" />
                                                     </Grid.ColumnDefinitions>
-                                                    <TextBlock Grid.Column="0" Text="{Binding ReminderTime, StringFormat='yyyy-MM-dd HH:mm'}" Foreground="#000000" VerticalAlignment="Center" FontFamily="Consolas"/>
-                                                    <TextBlock Grid.Column="1" Text="{Binding Content}" Foreground="#000000" Margin="8,0,8,0" VerticalAlignment="Center" TextTrimming="CharacterEllipsis"/>
-                                                    <Button Grid.Column="2" Content="删除" Tag="{Binding}" Click="BtnDeleteTodo_Click" Style="{StaticResource BrutalButton}" Padding="10,4" Background="#FF9500"/>
+                                                    <TextBlock Grid.Column="0"
+                                                               VerticalAlignment="Center"
+                                                               FontFamily="Consolas"
+                                                               Foreground="#000000"
+                                                               Text="{Binding ReminderTime, StringFormat='yyyy-MM-dd HH:mm'}" />
+                                                    <TextBlock Grid.Column="1"
+                                                               Margin="8,0,8,0"
+                                                               VerticalAlignment="Center"
+                                                               Foreground="#000000"
+                                                               Text="{Binding Content}"
+                                                               TextTrimming="CharacterEllipsis" />
+                                                    <Button Grid.Column="2"
+                                                            Padding="10,4"
+                                                            Background="#FF9500"
+                                                            Click="BtnDeleteTodo_Click"
+                                                            Content="删除"
+                                                            Style="{StaticResource BrutalButton}"
+                                                            Tag="{Binding}" />
                                                 </Grid>
                                             </Border>
                                         </DataTemplate>
@@ -538,80 +843,175 @@
             </Grid>
         </ScrollViewer>
 
-        <Border Grid.Row="2" BorderBrush="#000000" BorderThickness="0,4,0,0" Background="#FFFFFF">
+        <Border Grid.Row="2"
+                Background="#FFFFFF"
+                BorderBrush="#000000"
+                BorderThickness="0,4,0,0">
             <Grid Margin="22,0">
-                <TextBlock VerticalAlignment="Center" Text="WinIsland / Neo Brutal White" Foreground="#000000" FontFamily="Consolas"/>
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
-                    <Button Content="取消" Click="Cancel_Click" Style="{StaticResource BrutalButton}" Width="112" Margin="0,0,8,0" Background="#00D9FF"/>
-                    <Button Content="保存设置" Click="Save_Click" Style="{StaticResource PrimaryButtonStyle}" Width="136"/>
+                <TextBlock VerticalAlignment="Center"
+                           FontFamily="Consolas"
+                           Foreground="#000000"
+                           Text="WinIsland / Neo Brutal White" />
+                <StackPanel HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            Orientation="Horizontal">
+                    <Button Width="112"
+                            Margin="0,0,8,0"
+                            Background="#00D9FF"
+                            Click="Cancel_Click"
+                            Content="取消"
+                            Style="{StaticResource BrutalButton}" />
+                    <Button Width="136"
+                            Click="Save_Click"
+                            Content="保存设置"
+                            Style="{StaticResource PrimaryButtonStyle}" />
                 </StackPanel>
             </Grid>
         </Border>
 
-        <Popup x:Name="PopupTimeDial" StaysOpen="False" Placement="Center" PopupAnimation="Fade">
-            <Border Background="#FFFFFF" BorderBrush="#000000" BorderThickness="4" Padding="12" Width="360">
+        <Popup x:Name="PopupTimeDial"
+               Placement="Center"
+               PopupAnimation="Fade"
+               StaysOpen="False">
+            <Border Width="360"
+                    Padding="12"
+                    Background="#FFFFFF"
+                    BorderBrush="#000000"
+                    BorderThickness="4">
                 <Border.Effect>
-                    <DropShadowEffect Color="#000000" ShadowDepth="8" BlurRadius="0" Opacity="1"/>
+                    <DropShadowEffect BlurRadius="0"
+                                      Opacity="1"
+                                      ShadowDepth="8"
+                                      Color="#000000" />
                 </Border.Effect>
                 <StackPanel>
-                    <TextBlock x:Name="TxtDialTitle" Text="选择时间" Style="{StaticResource SectionTitle}" Margin="0,0,0,6"/>
-                    <TextBlock x:Name="TxtDialValue" Text="09:00" FontFamily="Consolas" FontWeight="Bold" FontSize="18" HorizontalAlignment="Center" Margin="0,0,0,8"/>
-                    <Grid Width="300" Height="300" HorizontalAlignment="Center">
-                        <Ellipse Stroke="#000000" StrokeThickness="3" Fill="#FFFFFF"/>
-                        <Canvas x:Name="TimeDialCanvas" Width="300" Height="300"/>
+                    <TextBlock x:Name="TxtDialTitle"
+                               Margin="0,0,0,6"
+                               Style="{StaticResource SectionTitle}"
+                               Text="选择时间" />
+                    <TextBlock x:Name="TxtDialValue"
+                               Margin="0,0,0,8"
+                               HorizontalAlignment="Center"
+                               FontFamily="Consolas"
+                               FontSize="18"
+                               FontWeight="Bold"
+                               Text="09:00" />
+                    <Grid Width="300"
+                          Height="300"
+                          HorizontalAlignment="Center">
+                        <Ellipse Fill="#FFFFFF"
+                                 Stroke="#000000"
+                                 StrokeThickness="3" />
+                        <Canvas x:Name="TimeDialCanvas"
+                                Width="300"
+                                Height="300" />
                     </Grid>
-                    <Grid Width="220" HorizontalAlignment="Center" Margin="0,8,0,0">
+                    <Grid Width="220"
+                          Margin="0,8,0,0"
+                          HorizontalAlignment="Center">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="60"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="60"/>
+                            <ColumnDefinition Width="60" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="60" />
                         </Grid.ColumnDefinitions>
-                        <Button Grid.Column="0" Content="-" Style="{StaticResource BrutalButton}" Click="BtnMinuteDown_Click"/>
-                        <Border Grid.Column="1" Margin="8,0" BorderBrush="#000000" BorderThickness="3" Background="#FFFFFF" Padding="4,4">
+                        <Button Grid.Column="0"
+                                Click="BtnMinuteDown_Click"
+                                Content="-"
+                                Style="{StaticResource BrutalButton}" />
+                        <Border Grid.Column="1"
+                                Margin="8,0"
+                                Padding="4,4"
+                                Background="#FFFFFF"
+                                BorderBrush="#000000"
+                                BorderThickness="3">
                             <Border.Effect>
-                                <DropShadowEffect Color="#000000" ShadowDepth="4" BlurRadius="0" Opacity="1"/>
+                                <DropShadowEffect BlurRadius="0"
+                                                  Opacity="1"
+                                                  ShadowDepth="4"
+                                                  Color="#000000" />
                             </Border.Effect>
                             <TextBox x:Name="TxtMinuteValue"
-                                     Text="00"
                                      HorizontalContentAlignment="Center"
                                      VerticalContentAlignment="Center"
+                                     Background="#FFFFFF"
+                                     BorderThickness="0"
                                      FontFamily="Consolas"
                                      FontSize="18"
                                      FontWeight="Bold"
-                                     BorderThickness="0"
-                                     Background="#FFFFFF"
+                                     KeyDown="TxtMinuteValue_KeyDown"
+                                     LostFocus="TxtMinuteValue_LostFocus"
                                      MaxLength="2"
                                      PreviewTextInput="TxtMinuteValue_PreviewTextInput"
-                                     LostFocus="TxtMinuteValue_LostFocus"
-                                     KeyDown="TxtMinuteValue_KeyDown"/>
+                                     Text="00" />
                         </Border>
-                        <Button Grid.Column="2" Content="+" Style="{StaticResource BrutalButton}" Click="BtnMinuteUp_Click"/>
+                        <Button Grid.Column="2"
+                                Click="BtnMinuteUp_Click"
+                                Content="+"
+                                Style="{StaticResource BrutalButton}" />
                     </Grid>
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,0,0">
-                        <Button Content="取消" Style="{StaticResource BrutalButton}" Width="80" Margin="0,0,8,0" Click="BtnDialCancel_Click" Background="#00D9FF"/>
-                        <Button Content="确定" Style="{StaticResource BrutalButton}" Width="80" Click="BtnDialOk_Click" Background="#CCFF00"/>
+                    <StackPanel Margin="0,10,0,0"
+                                HorizontalAlignment="Right"
+                                Orientation="Horizontal">
+                        <Button Width="80"
+                                Margin="0,0,8,0"
+                                Background="#00D9FF"
+                                Click="BtnDialCancel_Click"
+                                Content="取消"
+                                Style="{StaticResource BrutalButton}" />
+                        <Button Width="80"
+                                Background="#CCFF00"
+                                Click="BtnDialOk_Click"
+                                Content="确定"
+                                Style="{StaticResource BrutalButton}" />
                     </StackPanel>
                 </StackPanel>
             </Border>
         </Popup>
 
-        <Popup x:Name="PopupTodoDate" StaysOpen="False" Placement="Bottom" PlacementTarget="{Binding ElementName=BtnTodoDate}" PopupAnimation="Fade">
-            <Border Background="#FFFFFF" BorderBrush="#000000" BorderThickness="4" Padding="10" Width="320">
+        <Popup x:Name="PopupTodoDate"
+               Placement="Bottom"
+               PlacementTarget="{Binding ElementName=BtnTodoDate}"
+               PopupAnimation="Fade"
+               StaysOpen="False">
+            <Border Width="320"
+                    Padding="10"
+                    Background="#FFFFFF"
+                    BorderBrush="#000000"
+                    BorderThickness="4">
                 <Border.Effect>
-                    <DropShadowEffect Color="#000000" ShadowDepth="8" BlurRadius="0" Opacity="1"/>
+                    <DropShadowEffect BlurRadius="0"
+                                      Opacity="1"
+                                      ShadowDepth="8"
+                                      Color="#000000" />
                 </Border.Effect>
                 <StackPanel>
                     <Grid Margin="0,0,0,8">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
-                        <Button Grid.Column="0" Content="←" Width="34" Style="{StaticResource BrutalButton}" Click="BtnCalendarPrev_Click"/>
-                        <TextBlock Grid.Column="1" x:Name="TxtCalendarTitle" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Consolas" FontWeight="Bold" FontSize="16"/>
-                        <Button Grid.Column="2" Content="→" Width="34" Style="{StaticResource BrutalButton}" Click="BtnCalendarNext_Click"/>
+                        <Button Grid.Column="0"
+                                Width="34"
+                                Click="BtnCalendarPrev_Click"
+                                Content="←"
+                                Style="{StaticResource BrutalButton}" />
+                        <TextBlock x:Name="TxtCalendarTitle"
+                                   Grid.Column="1"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   FontFamily="Consolas"
+                                   FontSize="16"
+                                   FontWeight="Bold" />
+                        <Button Grid.Column="2"
+                                Width="34"
+                                Click="BtnCalendarNext_Click"
+                                Content="→"
+                                Style="{StaticResource BrutalButton}" />
                     </Grid>
-                    <UniformGrid x:Name="CalendarDayGrid" Columns="7" Rows="7"/>
+                    <UniformGrid x:Name="CalendarDayGrid"
+                                 Columns="7"
+                                 Rows="7" />
                 </StackPanel>
             </Border>
         </Popup>
